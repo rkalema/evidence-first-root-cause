@@ -1,0 +1,67 @@
+{
+  "status": "root_cause_supported",
+  "problem": {
+    "statement": "Late dispatch rate increased from 5.1% to 12.4% during the current week.",
+    "metric": "late_dispatch_rate",
+    "baseline": "5.1%",
+    "observed": "12.4%",
+    "period": "current week",
+    "affected_population": "West distribution region"
+  },
+  "signal_validation": {
+    "trustworthy": true,
+    "checks": [
+      {"check": "Data freshness", "result": "All expected daily loads arrived."},
+      {"check": "Metric definition", "result": "No definition change during the period."}
+    ],
+    "notes": "The anomaly persists after removing duplicate scans."
+  },
+  "observations": [
+    {"statement": "Three facilities account for 76% of additional late dispatches.", "evidence": "Facility-level contribution analysis."}
+  ],
+  "hypotheses": [
+    {
+      "hypothesis": "Carrier pickup delays drove the increase.",
+      "mechanism": "Later carrier arrival shifts otherwise-ready orders beyond dispatch SLA.",
+      "evidence_for": ["Median pickup delay increased 41 minutes at the three affected facilities."],
+      "evidence_against": ["Two unaffected facilities use the same carrier but different pickup windows."],
+      "result": "supported"
+    },
+    {
+      "hypothesis": "Order volume spike drove the increase.",
+      "mechanism": "Higher volume exceeded facility processing capacity.",
+      "evidence_for": ["Volume increased 6%."],
+      "evidence_against": ["Comparable prior weeks handled larger volume without SLA deterioration."],
+      "result": "not_supported"
+    }
+  ],
+  "leading_explanation": {
+    "statement": "Delayed carrier pickups at three facilities are the strongest supported driver of the observed SLA deterioration.",
+    "evidence_class": "conclusion"
+  },
+  "confidence": {
+    "level": "medium",
+    "rationale": "Temporal ordering and facility concentration support the explanation, but no controlled intervention has yet been observed.",
+    "would_increase": ["SLA recovery after pickup-window correction."],
+    "would_reduce": ["Continued late dispatches despite restored pickup timing."]
+  },
+  "impact": {
+    "summary": "The deterioration affected outbound service performance in the West region.",
+    "measured": ["Late dispatch rate increased by 7.3 percentage points."],
+    "estimated": []
+  },
+  "unknowns": ["Whether driver scheduling or dock congestion caused the carrier arrival delay."],
+  "recommended_actions": {
+    "containment": ["Temporarily move pickup windows earlier at the three affected facilities."],
+    "corrective": ["Reconcile carrier schedule adherence against contracted pickup windows."],
+    "preventive": ["Create an alert for pickup deviation above 20 minutes."],
+    "investigation": ["Analyze dock availability and carrier GPS arrival timestamps."]
+  },
+  "validation_plan": {
+    "target_metric": "late_dispatch_rate",
+    "review_timing": "After 7 operating days",
+    "comparison_method": "Compare affected facilities before and after pickup-window correction, with unaffected facilities as reference.",
+    "success_criteria": "Late dispatch rate returns within two percentage points of the 5.1% baseline.",
+    "rollback_or_escalation": "Escalate to facility processing analysis if rate remains above 8%."
+  }
+}
