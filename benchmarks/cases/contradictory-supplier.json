@@ -1,0 +1,22 @@
+{
+  "id": "contradictory-supplier",
+  "title": "Supplier story conflicts with unaffected sites",
+  "prompt": "Defect rate increased and Supplier B is suspected. Determine the strongest supported explanation.",
+  "facts": [
+    "Supplier B serves five plants.",
+    "Defects rose at two plants but remained at baseline at the other three.",
+    "The two affected plants installed the same new calibration profile three days before defects rose.",
+    "Plants using the old calibration profile did not deteriorate regardless of supplier.",
+    "Incoming-material inspection scores for Supplier B were unchanged."
+  ],
+  "expected": {
+    "status": "root_cause_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": ["calibration", "three"],
+    "forbidden_terms": ["supplier b caused", "supplier caused"],
+    "allowed_evidence_classes": ["conclusion"],
+    "allowed_confidence": ["medium", "high"],
+    "pass_score": 90
+  }
+}
