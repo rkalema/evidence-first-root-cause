@@ -1,0 +1,52 @@
+{
+  "status": "root_cause_supported",
+  "problem": {
+    "statement": "Defects increased.",
+    "metric": "defect_rate",
+    "baseline": "2%",
+    "observed": "5%"
+  },
+  "signal_validation": {
+    "trustworthy": true,
+    "checks": [],
+    "notes": ""
+  },
+  "observations": [
+    {
+      "statement": "Supplier B appears associated with more defects."
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis": "Supplier B caused the increase.",
+      "mechanism": "Material quality changed.",
+      "evidence_for": [],
+      "evidence_against": [],
+      "result": "supported"
+    }
+  ],
+  "leading_explanation": {
+    "statement": "Supplier B caused the increase.",
+    "evidence_class": "conclusion"
+  },
+  "confidence": {
+    "level": "high",
+    "rationale": "Assumed."
+  },
+  "impact": {
+    "summary": "Unknown."
+  },
+  "unknowns": [],
+  "recommended_actions": {
+    "containment": [],
+    "corrective": [],
+    "preventive": [],
+    "investigation": []
+  },
+  "validation_plan": {
+    "target_metric": "defect_rate",
+    "review_timing": "Next month",
+    "comparison_method": "Compare.",
+    "success_criteria": "Lower defects."
+  }
+}
