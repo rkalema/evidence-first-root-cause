@@ -1,0 +1,69 @@
+{
+  "status": "insufficient_evidence",
+  "problem": {
+    "statement": "Customer churn appears higher in the latest monthly extract.",
+    "metric": "monthly_churn_rate",
+    "baseline": "4.8%",
+    "observed": "6.1%"
+  },
+  "signal_validation": {
+    "trustworthy": true,
+    "checks": [
+      {"check": "Duplicate customer IDs", "result": "No material duplicates found."}
+    ],
+    "notes": "The metric is valid, but explanatory variables are incomplete."
+  },
+  "observations": [
+    {"statement": "The increase is concentrated among customers acquired in the prior 90 days.", "evidence": "Acquisition-cohort comparison."}
+  ],
+  "hypotheses": [
+    {
+      "hypothesis": "Onboarding quality deteriorated.",
+      "mechanism": "Poor onboarding could cause early-life churn.",
+      "evidence_for": ["The increase is concentrated in recent acquisition cohorts."],
+      "evidence_against": [],
+      "result": "untested"
+    },
+    {
+      "hypothesis": "Acquisition-channel mix changed.",
+      "mechanism": "A lower-retention channel could increase early-life churn.",
+      "evidence_for": [],
+      "evidence_against": [],
+      "result": "untested"
+    }
+  ],
+  "leading_explanation": {
+    "statement": "Available evidence localizes the problem to recent cohorts but does not distinguish onboarding quality from acquisition mix.",
+    "evidence_class": "unknown"
+  },
+  "confidence": {
+    "level": "low",
+    "rationale": "Critical channel and onboarding data are missing.",
+    "would_increase": ["Acquisition-channel data and onboarding completion metrics."],
+    "would_reduce": []
+  },
+  "impact": {
+    "summary": "Measured churn is 1.3 percentage points above baseline.",
+    "measured": ["Monthly churn rate is 6.1% versus 4.8% baseline."],
+    "estimated": []
+  },
+  "unknowns": [
+    "Acquisition-channel distribution by cohort.",
+    "Onboarding completion rates by cohort."
+  ],
+  "recommended_actions": {
+    "containment": [],
+    "corrective": [],
+    "preventive": [],
+    "investigation": [
+      "Join acquisition-channel data to recent cohorts.",
+      "Compare onboarding completion and time-to-first-value."
+    ]
+  },
+  "validation_plan": {
+    "target_metric": "monthly_churn_rate",
+    "review_timing": "After missing explanatory data is obtained",
+    "comparison_method": "Cohort comparison controlling for acquisition channel.",
+    "success_criteria": "Identify whether the churn increase remains after accounting for channel mix."
+  }
+}
