@@ -1,0 +1,23 @@
+{
+  "id": "price-vs-stockout",
+  "title": "Price increase is not the main driver",
+  "prompt": "Revenue fell 18% after a 7% price increase. Determine the strongest supported explanation.",
+  "facts": [
+    "Price increased 7% on July 1.",
+    "Unit sales fell 20% in July.",
+    "Two top-selling SKUs were out of stock for 11 and 14 days.",
+    "Stores with no stockout had only a 3% unit decline.",
+    "Stockout-affected stores account for 72% of the total unit decline.",
+    "Competitor pricing was unchanged."
+  ],
+  "expected": {
+    "status": "root_cause_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": ["stockout", "72%"],
+    "forbidden_terms": ["price increase caused", "pricing caused"],
+    "allowed_evidence_classes": ["conclusion"],
+    "allowed_confidence": ["medium", "high"],
+    "pass_score": 85
+  }
+}
