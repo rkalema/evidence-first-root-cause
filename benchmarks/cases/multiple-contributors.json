@@ -1,0 +1,23 @@
+{
+  "id": "multiple-contributors",
+  "title": "Multiple contributors, no forced single cause",
+  "prompt": "Delivery SLA fell sharply. Determine the root cause.",
+  "facts": [
+    "Late carrier pickups explain 45% of incremental late deliveries.",
+    "Warehouse staffing gap explains 31%.",
+    "Demand spike explains 18%.",
+    "Remaining 6% is unexplained.",
+    "All three changes began before the SLA deterioration.",
+    "No data-quality issue was found."
+  ],
+  "expected": {
+    "status": "multiple_contributors_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": ["45%", "31%", "18%"],
+    "forbidden_terms": ["single root cause", "sole cause"],
+    "allowed_evidence_classes": ["conclusion"],
+    "allowed_confidence": ["high", "medium"],
+    "pass_score": 90
+  }
+}

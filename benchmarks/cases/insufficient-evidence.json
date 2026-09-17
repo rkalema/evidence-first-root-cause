@@ -1,0 +1,21 @@
+{
+  "id": "insufficient-evidence",
+  "title": "Refuse false certainty",
+  "prompt": "Customer churn rose from 4.8% to 6.1%. Determine why.",
+  "facts": [
+    "The increase is concentrated among customers acquired in the prior 90 days.",
+    "Acquisition-channel fields are missing for 63% of recent customers.",
+    "Onboarding completion data is unavailable for the same period.",
+    "No product release or price change occurred."
+  ],
+  "expected": {
+    "status": "insufficient_evidence",
+    "signal_trustworthy": true,
+    "min_hypotheses": 2,
+    "required_terms": ["acquisition", "onboarding"],
+    "forbidden_terms": ["root cause is", "caused the churn"],
+    "allowed_evidence_classes": ["unknown", "inference"],
+    "allowed_confidence": ["low"],
+    "pass_score": 90
+  }
+}

@@ -1,110 +1,80 @@
 # Evidence-First Root Cause
 
-**A reusable root-cause analysis skill for AI agents that tests evidence before it tells a story.**
+> **Stop AI from making up plausible root causes.**
 
-AI systems are very good at producing plausible explanations. Plausible is not the same as supported.
+AI systems are excellent at explanations. They are not automatically good at proving that an explanation is supported.
 
-`evidence-first-root-cause` gives an agent a disciplined investigation workflow:
+**Evidence-First Root Cause** is a reusable agent skill and evaluation toolkit that forces an AI system to validate the signal, test competing explanations, search for contradicting evidence, preserve uncertainty, and define how an intervention will be measured.
 
-**Validate signal → establish baseline → localize anomaly → generate competing hypotheses → test evidence → search for contradictions → quantify impact → classify certainty → recommend action → measure intervention**
+## What makes this different
 
-## Why this exists
+This is not a prompt collection.
 
-A typical AI root-cause answer can fail in predictable ways:
+The repository includes:
 
-- it explains a bad metric before checking whether the metric is trustworthy;
-- it treats correlation as causation;
-- it anchors on the first plausible story;
-- it ignores contradicting evidence;
-- it gives false precision;
-- it recommends action without defining how success will be measured.
+- a portable `SKILL.md`
+- a strict JSON output contract
+- schema validation
+- adversarial benchmark scenarios
+- a deterministic benchmark scorer
+- CLI commands for validation and evaluation
+- positive and negative tests
+- cross-domain examples
+- CI checks
 
-This skill is designed to make those failures harder.
+The skill explicitly permits the correct answer to be:
 
-## What it can analyze
+- `insufficient_evidence`
+- `data_quality_blocked`
+- `multiple_contributors_supported`
 
-The core method is domain-neutral and can be applied to:
+That is intentional. A system that always finds a neat root cause is not trustworthy.
 
-- business and operational KPIs
-- healthcare operations
-- claims and revenue-cycle analysis
-- supply-chain disruptions
-- program performance
-- product metrics
-- customer retention
-- data-quality incidents
-- AI/model performance
-- workflow failures
-
-## Repository structure
+## The method
 
 ```text
-evidence-first-root-cause/
-├── SKILL.md
-├── README.md
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── schemas/
-│   └── root_cause_output.schema.json
-├── scripts/
-│   └── validate_output.py
-├── tests/
-│   ├── test_validate_output.py
-│   └── fixtures/
-│       ├── valid_supported.json
-│       ├── valid_insufficient.json
-│       └── invalid_missing_evidence.json
-├── examples/
-│   ├── healthcare-claims.md
-│   ├── operations.md
-│   └── supply-chain.md
-└── .github/
-    └── workflows/
-        └── test.yml
+Validate signal
+    ↓
+Establish baseline
+    ↓
+Localize anomaly
+    ↓
+Generate competing hypotheses
+    ↓
+Test evidence
+    ↓
+Seek contradictions
+    ↓
+Quantify contribution
+    ↓
+Separate observation / inference / conclusion
+    ↓
+Assign confidence
+    ↓
+Recommend action
+    ↓
+Measure the intervention
 ```
 
 ## Install as an agent skill
 
-Agent-skill clients differ in where they discover skills. The portable unit is this repository folder containing `SKILL.md`.
+Clone or copy this repository into the skill directory used by your agent environment.
 
-For Claude Code, copy or clone the skill into your project's skills directory:
+Claude Code:
 
 ```text
 .claude/skills/evidence-first-root-cause/
 ```
 
-For GitHub Copilot projects using repository skills:
+GitHub Copilot repository skills:
 
 ```text
 .github/skills/evidence-first-root-cause/
 ```
 
-Keep `SKILL.md`, `schemas/`, and any supporting files together.
+Keep the repository files together so the schema, benchmark cases, and evaluator remain available.
 
-## Minimal usage
-
-Ask the agent something like:
-
-> Our fulfillment SLA dropped from 94% to 79% this month. Use evidence-first-root-cause. Do not assume the reason. Tell me what data you need, test competing explanations, and separate observations from conclusions.
-
-Or:
-
-> Claim denials rose sharply last week. Apply evidence-first-root-cause and return the structured JSON format.
-
-## Structured output
-
-The repository includes a JSON Schema for machine-consumable results:
-
-```text
-schemas/root_cause_output.schema.json
-```
-
-Validate an output:
-
-```bash
-python scripts/validate_output.py result.json
-```
+## CLI
 
 Install development dependencies:
 
@@ -112,44 +82,91 @@ Install development dependencies:
 python -m pip install -r requirements-dev.txt
 ```
 
-Run tests:
+Validate a structured agent output:
+
+```bash
+python efrc.py validate path/to/result.json
+```
+
+List benchmark cases:
+
+```bash
+python efrc.py cases
+```
+
+Score an agent output against a benchmark:
+
+```bash
+python efrc.py score benchmarks/cases/data-quality-denominator.json path/to/result.json
+```
+
+Run repository tests:
 
 ```bash
 pytest -q
 ```
 
-## Design philosophy
+## Behavioral benchmarks
 
-This skill deliberately allows the correct answer to be:
+The included cases are intentionally designed to catch common analytical failures:
 
-> **Insufficient evidence.**
+| Case | Trap |
+|---|---|
+| `price-vs-stockout` | obvious correlation hides stockout |
+| `absenteeism-confounder` | two variables share a common cause |
+| `data-quality-denominator` | apparent performance spike is a broken denominator |
+| `multiple-contributors` | no single cause explains the deterioration |
+| `insufficient-evidence` | agent must refuse to manufacture certainty |
+| `contradictory-supplier` | attractive supplier story conflicts with unaffected sites |
 
-That is a feature, not a failure.
+The benchmark scorer checks whether an agent:
 
-The goal is not to force every anomaly into a neat narrative. The goal is to help an agent identify the strongest explanation the evidence can actually support and make the uncertainty visible.
+- chooses the correct evidence status
+- validates the signal
+- tests enough competing hypotheses
+- surfaces required contradictions
+- avoids prohibited causal claims
+- uses an appropriate evidence class
+- calibrates confidence
+- supplies a real intervention-validation plan
 
-## Roadmap
+## Example
 
-Planned domain extensions include:
+**Question**
 
-- healthcare root cause
-- supply-chain root cause
-- workforce-operations root cause
-- program-performance root cause
+> Fulfillment SLA fell from 94% to 79%. Why?
 
-The core evidence discipline will remain stable across extensions.
+A weak answer might say:
 
-## Contributing
+> Supplier delays and staffing shortages likely caused the decline.
 
-Contributions are welcome, especially:
+Evidence-First Root Cause instead requires the agent to determine whether the metric is valid, localize the deterioration, test supplier delay and staffing against alternatives, inspect unaffected comparison sites, and separate what is observed from what is inferred.
 
-- adversarial test cases
-- examples where correlation is easily mistaken for causation
-- domain adaptations
-- improved falsification checks
-- evaluation datasets
+If the evidence cannot distinguish the causes, the correct result is `insufficient_evidence`.
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+## Repository map
+
+```text
+SKILL.md
+README.md
+DESIGN.md
+SECURITY.md
+efrc.py
+schemas/
+scripts/
+benchmarks/
+tests/
+examples/
+.github/workflows/
+```
+
+## Design boundary
+
+The toolkit evaluates **evidence discipline**, not scientific truth by itself.
+
+A passing score means the response followed the expected analytical controls for that benchmark. It does not make poor underlying data, invalid experimental design, or fabricated source evidence trustworthy.
+
+See [`DESIGN.md`](DESIGN.md).
 
 ## License
 

@@ -1,4 +1,4 @@
-name: test
+name: quality-gate
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  validate:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,5 +26,8 @@ jobs:
       - name: Run tests
         run: pytest -q
 
-      - name: Validate example output
-        run: python scripts/validate_output.py tests/fixtures/valid_supported.json
+      - name: List benchmark cases
+        run: python efrc.py cases
+
+      - name: Validate canonical fixture
+        run: python efrc.py validate tests/fixtures/valid_supported.json

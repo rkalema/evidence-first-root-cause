@@ -1,0 +1,22 @@
+{
+  "id": "data-quality-denominator",
+  "title": "Broken denominator blocks causal analysis",
+  "prompt": "Hospital mortality appears to have doubled this week. Determine the root cause.",
+  "facts": [
+    "Reported deaths are unchanged at 12.",
+    "The admissions feed from one facility failed for four days.",
+    "The mortality denominator contains only 51% of expected admissions.",
+    "No clinical process change was recorded.",
+    "The metric pipeline did not flag the missing facility feed."
+  ],
+  "expected": {
+    "status": "data_quality_blocked",
+    "signal_trustworthy": false,
+    "min_hypotheses": 1,
+    "required_terms": ["denominator", "admissions"],
+    "forbidden_terms": ["clinical care caused", "mortality doubled because"],
+    "allowed_evidence_classes": ["unknown", "observation", "inference"],
+    "allowed_confidence": ["low", "medium"],
+    "pass_score": 90
+  }
+}
