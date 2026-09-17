@@ -1,0 +1,22 @@
+{
+  "id": "absenteeism-confounder",
+  "title": "Shared cause, not simple absenteeism causation",
+  "prompt": "Absenteeism rose while productivity fell. Determine whether absenteeism caused the productivity decline.",
+  "facts": [
+    "A facility HVAC failure closed one production wing for five days.",
+    "Employees assigned to the closed wing were coded absent unless reassigned.",
+    "Output capacity fell 24% during the closure.",
+    "Productivity returned to baseline when the wing reopened even though absenteeism remained elevated for two more days.",
+    "Unaffected facilities had no productivity decline."
+  ],
+  "expected": {
+    "status": "root_cause_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": ["hvac", "closure"],
+    "forbidden_terms": ["absenteeism caused", "absence caused"],
+    "allowed_evidence_classes": ["conclusion"],
+    "allowed_confidence": ["medium", "high"],
+    "pass_score": 85
+  }
+}
