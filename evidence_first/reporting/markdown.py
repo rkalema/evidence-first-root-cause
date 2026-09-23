@@ -8,4 +8,4 @@ def render_investigation_report(run:InvestigationRun)->str:
         lines += [f'## {result.role.value.replace("_"," ").title()}',result.summary,'']
         if result.unknowns: lines += ['**Unknowns**']+[f'- {u}' for u in result.unknowns]+['']
         if result.artifacts: lines += ['**Artifacts**']+[f'- {k}' for k in sorted(result.artifacts)]+['']
-    return '\\n'.join(lines)
+    return '\n'.join(lines)
