@@ -1,0 +1,32 @@
+{
+  "id": "warehouse-pick-path",
+  "title": "Pick-rate decline versus SKU slotting",
+  "prompt": "Warehouse pick rate fell 18% after new handheld scanners were introduced. Determine why.",
+  "facts": [
+    "Pick rate began falling four days before scanner rollout.",
+    "Scanner error rate is below 0.5% and unchanged by shift.",
+    "A slotting reset moved fast-moving SKUs farther from packing stations one week before the decline.",
+    "Walking distance per order rose 23%.",
+    "Two zones not affected by the slotting reset received the same scanners and maintained pick rate."
+  ],
+  "expected": {
+    "status": "root_cause_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": [
+      "slotting",
+      "walking",
+      "zones"
+    ],
+    "forbidden_terms": [
+      "scanner caused"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion"
+    ],
+    "allowed_confidence": [
+      "high"
+    ],
+    "pass_score": 90
+  }
+}
