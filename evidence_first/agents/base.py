@@ -2,25 +2,25 @@ from dataclasses import dataclass, field
 from enum import Enum
 
 class AgentRole(str, Enum):
-    INVESTIGATION_PLANNER="investigation_planner"
+    EVIDENCE_INTAKE_COORDINATOR="evidence_intake_coordinator"\n    INVESTIGATION_PLANNER="investigation_planner"
     SIGNAL_VALIDATOR="signal_validator"
     DATA_QUALITY_INVESTIGATOR="data_quality_investigator"
-    HYPOTHESIS_GENERATOR="hypothesis_generator"
+    HYPOTHESIS_GENERATOR="hypothesis_generator"\n    EVIDENCE_ANALYST="evidence_analyst"
     CONTRADICTION_INVESTIGATOR="contradiction_investigator"
     CONFOUND_REVIEWER="confound_reviewer"
     CONTRIBUTION_ANALYST="contribution_analyst"
     CRITIC="critic"
-    INTERVENTION_PLANNER="intervention_planner"
+    INTERVENTION_PLANNER="intervention_planner"\n    OUTCOME_EVALUATOR="outcome_evaluator"\n    MEMORY_CURATOR="memory_curator"
 
 class DecisionRight(str, Enum):
     READ_EVIDENCE="read_evidence"
     ADD_EVIDENCE="add_evidence"
-    ADD_HYPOTHESIS="add_hypothesis"
+    ADD_HYPOTHESIS="add_hypothesis"\n    RUN_ANALYTICAL_TOOL="run_analytical_tool"
     CHALLENGE_HYPOTHESIS="challenge_hypothesis"
     CLASSIFY_CONFOUND="classify_confound"
     QUANTIFY_CONTRIBUTION="quantify_contribution"
     BLOCK_CAUSAL_ANALYSIS="block_causal_analysis"
-    RECOMMEND_ACTION="recommend_action"
+    RECOMMEND_ACTION="recommend_action"\n    EVALUATE_OUTCOME="evaluate_outcome"\n    WRITE_MEMORY="write_memory"
     APPROVE_FINAL_CONCLUSION="approve_final_conclusion"
 
 @dataclass(frozen=True)
