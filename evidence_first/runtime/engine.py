@@ -8,6 +8,7 @@ from evidence_first.agents.base import AgentRole
 from evidence_first.agents.catalog import default_agent_registry
 from evidence_first.agents.orchestrator import InvestigationOrchestrator
 from evidence_first.agents.result import AgentDecision, AgentResult
+from evidence_first.agents.validation import validate_agent_result
 from evidence_first.runtime.events import InvestigationEvent
 
 class Stage(str, Enum):
@@ -64,6 +65,13 @@ class InvestigationEngine:
             run.stage=ROLE_STAGE[task.role]
             run.events.append(InvestigationEvent("agent_started",run.stage.value,spec.purpose,task.role.value))
             result=self.adapter.run(spec, run.artifact_context())
+            violations=validate_agent_result(spec,result)
+            if violations:
+                run.stage=Stage.BLOCKED
+                run.blocked_by=task.role.value
+                message="; ".join(v.message for v in violations)
+                run.events.append(InvestigationEvent("contract_violation",run.stage.value,message,task.role.value))
+                return run
             run.results.append(result)
             for unknown in result.unknowns:
                 run.context.setdefault("unknowns",[]).append(unknown)
