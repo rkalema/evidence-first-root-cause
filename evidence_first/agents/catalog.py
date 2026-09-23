@@ -48,7 +48,7 @@ def default_agent_registry():
     add(AgentRole.EVIDENCE_ANALYST,
         "Use read-only analytical tools to test hypotheses and return traceable derived evidence.",
         ["hypotheses","evidence_ledger","tool_registry"],
-        ["analysis_results","derived_evidence","segmentation_results","hypothesis_tests","method_limits"],
+        ["analysis_results","derived_evidence","segmentation_results","hypothesis_tests","tool_requests","method_limits"],
         [DecisionRight.READ_EVIDENCE,DecisionRight.ADD_EVIDENCE,DecisionRight.RUN_ANALYTICAL_TOOL],
         ["required tool or data unavailable"],
         ["tool outputs retain source provenance","methods are reproducible","analysis does not silently become a conclusion"])
