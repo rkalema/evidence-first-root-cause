@@ -1,0 +1,32 @@
+{
+  "id": "supplier-delay-port",
+  "title": "Supplier blame versus port congestion",
+  "prompt": "Inbound lead time rose 42%. Procurement blames Supplier C. Determine the strongest explanation.",
+  "facts": [
+    "Supplier C lead time rose 41%, but Suppliers A and B using the same port rose 38% and 44%.",
+    "Suppliers using a different port remained within 5% of baseline.",
+    "Factory-ready dates from Supplier C were unchanged.",
+    "Port dwell time rose from 2.1 to 6.8 days.",
+    "The affected port experienced labor action during the same period."
+  ],
+  "expected": {
+    "status": "root_cause_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": [
+      "port",
+      "dwell",
+      "factory-ready"
+    ],
+    "forbidden_terms": [
+      "Supplier C caused"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion"
+    ],
+    "allowed_confidence": [
+      "high"
+    ],
+    "pass_score": 88
+  }
+}
