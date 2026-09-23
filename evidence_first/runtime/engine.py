@@ -20,7 +20,7 @@ class Stage(str, Enum):
     CONTRIBUTION="contribution"
     CRITIC="critic"
     INTERVENTION="intervention"\n    OUTCOME="outcome"\n    MEMORY="memory"
-    COMPLETE="complete"
+    AWAITING_OUTCOME="awaiting_outcome"\n    COMPLETE="complete"
     BLOCKED="blocked"
 
 ROLE_STAGE={\n    AgentRole.EVIDENCE_INTAKE_COORDINATOR: Stage.INTAKE,
