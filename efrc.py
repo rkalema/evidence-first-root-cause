@@ -5,7 +5,7 @@ import argparse,json
 from pathlib import Path
 from scripts.evaluate_case import score
 from scripts.validate_output import validate_document
-from evidence_first.intake import ingest_csv,ingest_json,ingest_text
+from evidence_first.intake import ingest_csv,ingest_json,ingest_text,ingest_xlsx_bytes
 from evidence_first.domains import DOMAIN_PACKS
 from evidence_first.evaluation.ablation import ablation_plan
 
@@ -34,9 +34,12 @@ def cmd_score(case_path:Path,result_path:Path)->int:
     report=score(load_json(case_path),result); print(json.dumps(report,indent=2)); return 0 if report["passed"] else 1
 
 def cmd_intake(path:Path)->int:
-    text=path.read_text(encoding="utf-8")
     ext=path.suffix.lower()
-    result=ingest_csv(text,source_id=path.name) if ext==".csv" else ingest_json(text,source_id=path.name) if ext==".json" else ingest_text(text,source_id=path.name)
+    if ext in {".xlsx",".xlsm"}:
+        result=ingest_xlsx_bytes(path.read_bytes(),source_id=path.name)
+    else:
+        text=path.read_text(encoding="utf-8")
+        result=ingest_csv(text,source_id=path.name) if ext==".csv" else ingest_json(text,source_id=path.name) if ext==".json" else ingest_text(text,source_id=path.name)
     print(json.dumps({"valid":result.valid,"source":result.source.__dict__,"stats":result.stats,"issues":[{"code":x.code,"message":x.message,"severity":x.severity.value} for x in result.issues]},indent=2))
     return 0 if result.valid else 1
 
