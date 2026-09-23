@@ -1,0 +1,7 @@
+depot,period,labor_hours,order_volume,sla,release_to_ready_minutes
+A,before,100,1000,91,46
+A,after,87,1240,61,91
+B,before,100,980,92,44
+B,after,100,1215,86,55
+C,before,100,1010,90,47
+C,after,86,1250,63,88
