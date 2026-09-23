@@ -41,15 +41,31 @@ def compare(case_id:str,baseline:Path,evidence_first:Path)->dict:
     a=score_result(case_id,baseline); b=score_result(case_id,evidence_first)
     return {"case_id":case_id,"baseline":a,"evidence_first":b,"delta":round(float(b.get("score",0))-float(a.get("score",0)),1)}
 
+def suite(manifest_path:Path)->dict:
+    manifest=json.loads(manifest_path.read_text())
+    rows=[]
+    for item in manifest:
+        rows.append(compare(item["case_id"],Path(item["baseline"]),Path(item["evidence_first"])))
+    baseline_scores=[float(x["baseline"].get("score",0)) for x in rows]
+    ef_scores=[float(x["evidence_first"].get("score",0)) for x in rows]
+    n=len(rows)
+    return {
+        "n":n,
+        "baseline_mean":round(sum(baseline_scores)/n,2) if n else 0,
+        "evidence_first_mean":round(sum(ef_scores)/n,2) if n else 0,
+        "mean_delta":round((sum(ef_scores)-sum(baseline_scores))/n,2) if n else 0,
+        "cases":rows,
+    }
+
 def main()->int:
     p=argparse.ArgumentParser(); sub=p.add_subparsers(dest="cmd",required=True)
     q=sub.add_parser("prepare"); q.add_argument("case_id"); q.add_argument("--out",type=Path,default=Path("runs"))
     q=sub.add_parser("score"); q.add_argument("case_id"); q.add_argument("result",type=Path)
-    q=sub.add_parser("compare"); q.add_argument("case_id"); q.add_argument("baseline",type=Path); q.add_argument("evidence_first",type=Path)
+    q=sub.add_parser("compare"); q.add_argument("case_id"); q.add_argument("baseline",type=Path); q.add_argument("evidence_first",type=Path)\n    q=sub.add_parser("suite"); q.add_argument("manifest",type=Path)
     a=p.parse_args()
     if a.cmd=="prepare":
         print("\n".join(map(str,prepare(a.case_id,a.out)))); return 0
     if a.cmd=="score":
         r=score_result(a.case_id,a.result); print(json.dumps(r,indent=2)); return 0 if r.get("passed") else 1
-    r=compare(a.case_id,a.baseline,a.evidence_first); print(json.dumps(r,indent=2)); return 0
+    if a.cmd=="compare":\n        r=compare(a.case_id,a.baseline,a.evidence_first); print(json.dumps(r,indent=2)); return 0\n    r=suite(a.manifest); print(json.dumps(r,indent=2)); return 0
 if __name__=="__main__": raise SystemExit(main())
