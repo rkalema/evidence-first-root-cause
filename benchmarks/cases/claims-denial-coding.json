@@ -1,0 +1,33 @@
+{
+  "id": "claims-denial-coding",
+  "title": "Claims denial spike versus coding mix",
+  "prompt": "Insurance claim denials rose from 7% to 12% after a billing-system update. Determine why.",
+  "facts": [
+    "The update went live on May 10.",
+    "Denials began rising May 1.",
+    "A new specialty clinic opened May 1 and contributed 29% of May claims.",
+    "The specialty clinic denial rate is 24%; legacy-clinic denial rates remained 6-8%.",
+    "System validation errors remained flat before and after May 10.",
+    "Within the specialty clinic, missing prior-authorization codes explain 68% of denials."
+  ],
+  "expected": {
+    "status": "root_cause_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": [
+      "specialty",
+      "prior-authorization",
+      "legacy"
+    ],
+    "forbidden_terms": [
+      "billing-system caused"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion"
+    ],
+    "allowed_confidence": [
+      "high"
+    ],
+    "pass_score": 90
+  }
+}
