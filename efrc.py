@@ -1,80 +1,63 @@
 #!/usr/bin/env python3
-"""CLI for Evidence-First Root Cause."""
-
+"""CLI for Evidence-First."""
 from __future__ import annotations
-
-import argparse
-import json
+import argparse,json
 from pathlib import Path
-
 from scripts.evaluate_case import score
 from scripts.validate_output import validate_document
+from evidence_first.intake import ingest_csv,ingest_json,ingest_text
+from evidence_first.domains import DOMAIN_PACKS
+from evidence_first.evaluation.ablation import ablation_plan
 
+ROOT=Path(__file__).resolve().parent
+CASES_DIR=ROOT/"benchmarks"/"cases"
 
-ROOT = Path(__file__).resolve().parent
-CASES_DIR = ROOT / "benchmarks" / "cases"
+def load_json(path:Path)->dict:
+    with path.open("r",encoding="utf-8") as h:return json.load(h)
 
-
-def load_json(path: Path) -> dict:
-    with path.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
-
-
-def cmd_validate(path: Path) -> int:
-    errors = validate_document(load_json(path))
+def cmd_validate(path:Path)->int:
+    errors=validate_document(load_json(path))
     if errors:
-        print("INVALID")
-        for error in errors:
-            print(f"- {error}")
-        return 1
-    print("VALID")
+        print("INVALID"); [print(f"- {e}") for e in errors]; return 1
+    print("VALID"); return 0
+
+def cmd_cases()->int:
+    paths=sorted(CASES_DIR.glob("*.json"))
+    for path in paths:
+        case=load_json(path); print(f"{case['id']}: {case['title']}")
+    print(f"TOTAL: {len(paths)}")
     return 0
 
+def cmd_score(case_path:Path,result_path:Path)->int:
+    result=load_json(result_path); errors=validate_document(result)
+    if errors: print(json.dumps({"valid_schema":False,"errors":errors},indent=2)); return 1
+    report=score(load_json(case_path),result); print(json.dumps(report,indent=2)); return 0 if report["passed"] else 1
 
-def cmd_cases() -> int:
-    for path in sorted(CASES_DIR.glob("*.json")):
-        case = load_json(path)
-        print(f"{case['id']}: {case['title']}")
-    return 0
+def cmd_intake(path:Path)->int:
+    text=path.read_text(encoding="utf-8")
+    ext=path.suffix.lower()
+    result=ingest_csv(text,source_id=path.name) if ext==".csv" else ingest_json(text,source_id=path.name) if ext==".json" else ingest_text(text,source_id=path.name)
+    print(json.dumps({"valid":result.valid,"source":result.source.__dict__,"stats":result.stats,"issues":[{"code":x.code,"message":x.message,"severity":x.severity.value} for x in result.issues]},indent=2))
+    return 0 if result.valid else 1
 
+def build_parser()->argparse.ArgumentParser:
+    p=argparse.ArgumentParser(prog="efrc",description="Evidence-First investigation and evaluation toolkit.")
+    sub=p.add_subparsers(dest="command",required=True)
+    q=sub.add_parser("validate"); q.add_argument("result",type=Path)
+    sub.add_parser("cases")
+    q=sub.add_parser("score"); q.add_argument("case",type=Path); q.add_argument("result",type=Path)
+    q=sub.add_parser("intake"); q.add_argument("source",type=Path)
+    sub.add_parser("domains")
+    sub.add_parser("ablations")
+    return p
 
-def cmd_score(case_path: Path, result_path: Path) -> int:
-    result = load_json(result_path)
-    errors = validate_document(result)
-    if errors:
-        print(json.dumps({"valid_schema": False, "errors": errors}, indent=2))
-        return 1
-
-    report = score(load_json(case_path), result)
-    print(json.dumps(report, indent=2))
-    return 0 if report["passed"] else 1
-
-
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="efrc", description="Validate and benchmark Evidence-First Root Cause outputs.")
-    sub = parser.add_subparsers(dest="command", required=True)
-
-    validate = sub.add_parser("validate", help="Validate an output against the canonical JSON schema.")
-    validate.add_argument("result", type=Path)
-
-    sub.add_parser("cases", help="List included behavioral benchmark cases.")
-
-    score_parser = sub.add_parser("score", help="Score an output against one benchmark case.")
-    score_parser.add_argument("case", type=Path)
-    score_parser.add_argument("result", type=Path)
-    return parser
-
-
-def main() -> int:
-    args = build_parser().parse_args()
-    if args.command == "validate":
-        return cmd_validate(args.result)
-    if args.command == "cases":
-        return cmd_cases()
-    if args.command == "score":
-        return cmd_score(args.case, args.result)
+def main()->int:
+    a=build_parser().parse_args()
+    if a.command=="validate":return cmd_validate(a.result)
+    if a.command=="cases":return cmd_cases()
+    if a.command=="score":return cmd_score(a.case,a.result)
+    if a.command=="intake":return cmd_intake(a.source)
+    if a.command=="domains": print("\n".join(sorted(DOMAIN_PACKS))); return 0
+    if a.command=="ablations": print(json.dumps(ablation_plan(),indent=2)); return 0
     return 2
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+if __name__=="__main__": raise SystemExit(main())
