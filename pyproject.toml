@@ -22,7 +22,11 @@ efrc = "efrc:main"
 py-modules = ["efrc"]
 
 [tool.setuptools.packages.find]
-include = ["evidence_first*"]
+include = ["evidence_first*", "scripts*", "benchmarks*", "schemas*"]
+
+[tool.setuptools.package-data]
+benchmarks = ["cases/*.json", "README.md"]
+schemas = ["*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
