@@ -10,6 +10,7 @@ from evidence_first.agents.orchestrator import InvestigationOrchestrator
 from evidence_first.agents.result import AgentDecision, AgentResult
 from evidence_first.agents.validation import validate_agent_result
 from evidence_first.runtime.events import InvestigationEvent
+from evidence_first.runtime.tool_broker import ToolExecutionBroker, ToolRequest
 
 class Stage(str, Enum):
     INTAKE="intake"\n    PLANNING="planning"
@@ -52,8 +53,10 @@ class InvestigationRun:
         return merged
 
 class InvestigationEngine:
-    def __init__(self, adapter: AgentAdapter):
+    def __init__(self, adapter: AgentAdapter, tool_broker: ToolExecutionBroker | None=None, max_tool_rounds: int=3):
         self.adapter=adapter
+        self.tool_broker=tool_broker
+        self.max_tool_rounds=max_tool_rounds
         self.registry=default_agent_registry()
         self.plan=InvestigationOrchestrator().build_plan()
 
@@ -65,6 +68,24 @@ class InvestigationEngine:
             run.stage=ROLE_STAGE[task.role]
             run.events.append(InvestigationEvent("agent_started",run.stage.value,spec.purpose,task.role.value))
             result=self.adapter.run(spec, run.artifact_context())
+            if task.role is AgentRole.EVIDENCE_ANALYST:
+                for _ in range(self.max_tool_rounds):
+                    requests=result.artifacts.get("tool_requests",[])
+                    if not requests:
+                        break
+                    if self.tool_broker is None:
+                        run.stage=Stage.BLOCKED
+                        run.blocked_by=task.role.value
+                        run.events.append(InvestigationEvent("tooling_unavailable",run.stage.value,"Evidence Analyst requested tools but no tool broker is configured.",task.role.value))
+                        return run
+                    parsed=[ToolRequest(str(x["name"]),dict(x.get("arguments",{})),tuple(x.get("source_ids",()))) for x in requests]
+                    outcomes=self.tool_broker.execute_many(parsed)
+                    run.context.setdefault("tool_outcomes",[]).extend([
+                        {"name":o.name,"ok":o.ok,"value":o.value,"error":o.error,"source_ids":o.source_ids}
+                        for o in outcomes
+                    ])
+                    run.events.append(InvestigationEvent("tools_executed",run.stage.value,f"{len(outcomes)} tool request(s) executed.",task.role.value))
+                    result=self.adapter.run(spec, run.artifact_context())
             violations=validate_agent_result(spec,result)
             if violations:
                 run.stage=Stage.BLOCKED
