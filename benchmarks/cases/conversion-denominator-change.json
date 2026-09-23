@@ -1,0 +1,33 @@
+{
+  "id": "conversion-denominator-change",
+  "title": "Conversion spike from denominator definition",
+  "prompt": "Website conversion jumped from 4.2% to 7.8%. Determine why.",
+  "facts": [
+    "Order count increased 3%.",
+    "Reported sessions fell 42% on the same day.",
+    "Analytics tagging was changed to exclude visitors who declined consent.",
+    "Checkout starts and completed orders changed less than 5%.",
+    "Historical sessions were not restated under the new definition."
+  ],
+  "expected": {
+    "status": "data_quality_blocked",
+    "signal_trustworthy": false,
+    "min_hypotheses": 2,
+    "required_terms": [
+      "sessions",
+      "consent",
+      "denominator"
+    ],
+    "forbidden_terms": [
+      "marketing caused",
+      "conversion improved"
+    ],
+    "allowed_evidence_classes": [
+      "unknown"
+    ],
+    "allowed_confidence": [
+      "low"
+    ],
+    "pass_score": 92
+  }
+}
