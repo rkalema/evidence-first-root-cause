@@ -11,7 +11,7 @@ from evidence_first.agents.result import AgentDecision, AgentResult
 from evidence_first.runtime.events import InvestigationEvent
 
 class Stage(str, Enum):
-    PLANNING="planning"
+    INTAKE="intake"\n    PLANNING="planning"
     SIGNAL_VALIDATION="signal_validation"
     DATA_QUALITY="data_quality"
     HYPOTHESES="hypotheses"
@@ -19,20 +19,20 @@ class Stage(str, Enum):
     CONFOUND="confound"
     CONTRIBUTION="contribution"
     CRITIC="critic"
-    INTERVENTION="intervention"
+    INTERVENTION="intervention"\n    OUTCOME="outcome"\n    MEMORY="memory"
     COMPLETE="complete"
     BLOCKED="blocked"
 
-ROLE_STAGE={
+ROLE_STAGE={\n    AgentRole.EVIDENCE_INTAKE_COORDINATOR: Stage.INTAKE,
     AgentRole.INVESTIGATION_PLANNER: Stage.PLANNING,
     AgentRole.SIGNAL_VALIDATOR: Stage.SIGNAL_VALIDATION,
     AgentRole.DATA_QUALITY_INVESTIGATOR: Stage.DATA_QUALITY,
-    AgentRole.HYPOTHESIS_GENERATOR: Stage.HYPOTHESES,
+    AgentRole.HYPOTHESIS_GENERATOR: Stage.HYPOTHESES,\n    AgentRole.EVIDENCE_ANALYST: Stage.HYPOTHESES,
     AgentRole.CONTRADICTION_INVESTIGATOR: Stage.CONTRADICTION,
     AgentRole.CONFOUND_REVIEWER: Stage.CONFOUND,
     AgentRole.CONTRIBUTION_ANALYST: Stage.CONTRIBUTION,
     AgentRole.CRITIC: Stage.CRITIC,
-    AgentRole.INTERVENTION_PLANNER: Stage.INTERVENTION,
+    AgentRole.INTERVENTION_PLANNER: Stage.INTERVENTION,\n    AgentRole.OUTCOME_EVALUATOR: Stage.OUTCOME,\n    AgentRole.MEMORY_CURATOR: Stage.MEMORY,
 }
 
 @dataclass
