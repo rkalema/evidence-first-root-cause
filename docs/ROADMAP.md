@@ -1,75 +1,42 @@
 # Build Roadmap
 
-## Phase A — Governed Investigation Core
-Status: IN PROGRESS
+## Initial system build
+Status: BUILD CANDIDATE COMPLETE — behavioral validation and correction pending.
 
-Deliverables:
-- immutable evidence records
-- append-only evidence ledger
-- typed analytical claims
-- hypothesis registry
-- contradiction review
-- deterministic investigation state
-- tests for core invariants
+Implemented:
+- governed evidence core
+- evidence ledger and typed claims
+- source fingerprints and provenance
+- CSV / JSON / text / Excel intake
+- 13 governed agent roles
+- deterministic orchestration runtime
+- two-phase intervention outcome lifecycle
+- DataFrame, statistics, and read-only SQL tools
+- derived-evidence provenance
+- human approval governance
+- prompt-injection source boundaries
+- investigation memory
+- six domain packs
+- 20 adversarial benchmark cases
+- deterministic scorer
+- matched baseline-vs-Evidence-First evaluation runner
+- ablation plan
+- reproducibility protocol
+- research protocol
+- real-data demonstration
+- Claude and Codex integration guidance
+- installable Python package and CLI
+- regression / governance / corpus tests
 
-Exit criteria:
-- no conclusion without evidence references
-- contradictions cannot be silently discarded
-- data-quality block overrides causal inference
-- multiple supported causes remain multiple causes
+## Next phase — validate and correct
 
-## Phase B — Evidence Intake
-- CSV/JSON/text ingestion
-- source identifiers
-- dataset fingerprints
-- schema checks
-- missingness/duplicate checks
-- evidence provenance
-
-## Phase C — Investigation Planner
-- plan generation from problem statement
-- required-data discovery
-- tool selection
-- bounded investigation steps
-- stop conditions
-
-## Phase D — Tooling
-- Python analysis tool
-- SQL tool
-- file/dataframe tool
-- optional external API adapters
-- tool output provenance
-
-## Phase E — Specialist Investigators
-- Signal Validator
-- Data Quality Investigator
-- Hypothesis Generator
-- Contradiction/Falsification Investigator
-- Confound Reviewer
-- Contribution Analyst
-- Critic
-- Intervention Planner
-
-## Phase F — Evaluation Laboratory
-- hidden gold keys
-- baseline vs Evidence-First runs
-- adversarial cases
-- false-causality metrics
-- contradiction-detection metrics
-- calibration metrics
-- regression gates
-
-## Phase G — Domain Packs
-- operations
-- healthcare
-- supply chain
-- customer analytics
-- program performance
-- AI incidents
-
-## Phase H — Investigation Memory
-- past hypotheses
-- decisive evidence patterns
-- disproven conclusions
-- intervention outcomes
-- benchmark failures
+1. Run the full automated suite.
+2. Repair build or contract failures.
+3. Execute matched behavioral tests across the benchmark corpus.
+4. Run ablations.
+5. Add at least one larger real-data investigation.
+6. Record latency/token/tool-call cost.
+7. Produce observed benchmark tables.
+8. External faculty review.
+9. Correct methodology and software based on findings.
+10. Merge professor-ready release to main only after the evidence supports the claims.
