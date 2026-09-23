@@ -1,0 +1,33 @@
+{
+  "id": "model-drift-label-delay",
+  "title": "Apparent model drift under label delay",
+  "prompt": "Fraud-model precision appears to have fallen from 78% to 61%. Determine why.",
+  "facts": [
+    "Recent-week labels are only 62% complete because chargeback outcomes mature after 30 days.",
+    "Older fully matured cohorts remain at 76-79% precision.",
+    "The apparent decline is largest in the newest cohort.",
+    "Feature distributions and model scores remain within historical ranges.",
+    "No model version change occurred."
+  ],
+  "expected": {
+    "status": "data_quality_blocked",
+    "signal_trustworthy": false,
+    "min_hypotheses": 2,
+    "required_terms": [
+      "labels",
+      "mature",
+      "cohort"
+    ],
+    "forbidden_terms": [
+      "model drift caused",
+      "precision truly fell"
+    ],
+    "allowed_evidence_classes": [
+      "unknown"
+    ],
+    "allowed_confidence": [
+      "low"
+    ],
+    "pass_score": 92
+  }
+}
