@@ -1,0 +1,37 @@
+{
+  "id": "routing-vs-lead-mix",
+  "title": "Trial conversion with routing uncertainty",
+  "prompt": "Trial-to-paid conversion fell from 28% to 20%. Revenue leadership blames a pricing-page redesign. Determine why.",
+  "facts": [
+    "Conversion was declining before the pricing-page redesign.",
+    "Pricing-page bounce, checkout click-through, and checkout completion were nearly unchanged.",
+    "SDR-sourced trials grew from 8% to 37% of trials and convert at 13% versus 29-31% for other sources.",
+    "Sales response time rose from 18 to 43 minutes.",
+    "Trials with no sales contact within 24 hours increased 19%.",
+    "A routing-rules update occurred during week 2, but historical rule versions are missing and 7% of assignment events are absent.",
+    "Within-source conversion is approximately stable."
+  ],
+  "expected": {
+    "status": "insufficient_evidence",
+    "signal_trustworthy": true,
+    "min_hypotheses": 4,
+    "required_terms": [
+      "SDR",
+      "response",
+      "routing"
+    ],
+    "forbidden_terms": [
+      "root cause is pricing",
+      "pricing-page caused"
+    ],
+    "allowed_evidence_classes": [
+      "unknown",
+      "inference"
+    ],
+    "allowed_confidence": [
+      "low",
+      "medium"
+    ],
+    "pass_score": 90
+  }
+}
