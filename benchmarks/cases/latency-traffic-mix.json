@@ -17,7 +17,8 @@
     "required_terms": [
       "long-document",
       "bucket",
-      "GPU"
+      "GPU",
+      "within-bucket stability"
     ],
     "forbidden_terms": [
       "4.2 caused"
@@ -28,6 +29,11 @@
     "allowed_confidence": [
       "high"
     ],
-    "pass_score": 90
+    "pass_score": 90,
+    "required_concepts": [
+      "long-document",
+      "bucket",
+      "GPU"
+    ]
   }
 }
