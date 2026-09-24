@@ -31,13 +31,15 @@ def main() -> int:
 
     args.destination.mkdir(parents=True)
     for relative in SKILL_FILES:
-        src = args.source / relative
-        if not src.exists():
+        source = args.source / relative
+        if not source.exists():
             raise SystemExit(f"required skill file missing: {relative}")
-        dst = args.destination / relative
-        dst.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src, dst)
+        destination = args.destination / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)
 
+    # Evaluation assets, benchmarks, gold keys, tests, scorers, and trap catalogs
+    # are intentionally excluded from the agent-visible installation tree.
     print(args.destination)
     return 0
 
