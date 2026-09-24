@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Any
+import re
 
 from evidence_first.tools.registry import ToolRegistry
 
@@ -14,6 +15,10 @@ SAFE_BUILTIN_TOOLS = frozenset(
         "dataframe.before_after",
         "sql.query",
     }
+)
+_SIDE_EFFECT_NAME = re.compile(
+    r"(?:^|[._-])(email|send|write|delete|update|insert|create|publish|post|notify|dispatch|upload|move|rename)(?:$|[._-])",
+    re.IGNORECASE,
 )
 
 
@@ -43,9 +48,17 @@ class ToolExecutionBroker:
         max_batch_requests: int = 100,
     ):
         self.registry = registry
-        self.auto_allowed_tools = frozenset(
-            SAFE_BUILTIN_TOOLS if auto_allowed_tools is None else auto_allowed_tools
-        )
+        if auto_allowed_tools is None:
+            # Default policy permits built-in analytics and local, non-action-looking
+            # tools. Operators can replace this with an explicit allowlist.
+            inferred = {
+                name
+                for name in registry.names()
+                if name in SAFE_BUILTIN_TOOLS or not _SIDE_EFFECT_NAME.search(name)
+            }
+            self.auto_allowed_tools = frozenset(inferred)
+        else:
+            self.auto_allowed_tools = frozenset(auto_allowed_tools)
         self.trusted_source_ids = frozenset(trusted_source_ids or ())
         self.max_batch_requests = max_batch_requests
 
