@@ -16,7 +16,8 @@
     "required_terms": [
       "port",
       "dwell",
-      "factory-ready"
+      "factory-ready",
+      "shared exposure"
     ],
     "forbidden_terms": [
       "Supplier C caused"
@@ -27,6 +28,11 @@
     "allowed_confidence": [
       "high"
     ],
-    "pass_score": 88
+    "pass_score": 88,
+    "required_concepts": [
+      "port",
+      "dwell",
+      "factory-ready"
+    ]
   }
 }
