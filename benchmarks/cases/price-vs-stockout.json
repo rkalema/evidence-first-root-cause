@@ -14,10 +14,26 @@
     "status": "root_cause_supported",
     "signal_trustworthy": true,
     "min_hypotheses": 3,
-    "required_terms": ["stockout", "72%"],
-    "forbidden_terms": ["price increase caused", "pricing caused"],
-    "allowed_evidence_classes": ["conclusion"],
-    "allowed_confidence": ["medium", "high"],
-    "pass_score": 85
+    "required_terms": [
+      "stockout",
+      "72%",
+      "temporal inconsistency"
+    ],
+    "forbidden_terms": [
+      "price increase caused",
+      "pricing caused"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion"
+    ],
+    "allowed_confidence": [
+      "medium",
+      "high"
+    ],
+    "pass_score": 85,
+    "required_concepts": [
+      "stockout",
+      "72%"
+    ]
   }
 }
