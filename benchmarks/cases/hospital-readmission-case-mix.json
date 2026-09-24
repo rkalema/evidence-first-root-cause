@@ -17,7 +17,8 @@
     "required_terms": [
       "acuity",
       "case mix",
-      "severity"
+      "severity",
+      "within-stratum stability"
     ],
     "forbidden_terms": [
       "workflow caused the readmission"
@@ -29,6 +30,11 @@
     "allowed_confidence": [
       "medium"
     ],
-    "pass_score": 88
+    "pass_score": 88,
+    "required_concepts": [
+      "acuity",
+      "case mix",
+      "severity"
+    ]
   }
 }
