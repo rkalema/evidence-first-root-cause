@@ -16,7 +16,8 @@
     "required_terms": [
       "slotting",
       "walking",
-      "zones"
+      "zones",
+      "quasi-control comparison"
     ],
     "forbidden_terms": [
       "scanner caused"
@@ -27,6 +28,11 @@
     "allowed_confidence": [
       "high"
     ],
-    "pass_score": 90
+    "pass_score": 90,
+    "required_concepts": [
+      "slotting",
+      "walking",
+      "zones"
+    ]
   }
 }
