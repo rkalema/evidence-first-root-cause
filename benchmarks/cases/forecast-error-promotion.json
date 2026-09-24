@@ -17,7 +17,8 @@
     "required_terms": [
       "promotion",
       "promoted",
-      "historical"
+      "historical",
+      "regime shift"
     ],
     "forbidden_terms": [
       "model upgrade caused"
@@ -29,6 +30,11 @@
       "high",
       "medium"
     ],
-    "pass_score": 88
+    "pass_score": 88,
+    "required_concepts": [
+      "promotion",
+      "promoted",
+      "historical"
+    ]
   }
 }
