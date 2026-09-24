@@ -1,0 +1,34 @@
+{
+  "id": "hospital-readmission-case-mix",
+  "title": "Readmission spike versus case mix",
+  "prompt": "Thirty-day readmission rose from 11% to 15% after a discharge workflow change. Determine the strongest explanation.",
+  "facts": [
+    "The workflow change launched hospital-wide in April.",
+    "Readmission had already risen to 13.5% in March.",
+    "The share of high-acuity heart-failure discharges rose from 14% to 27% from February to May.",
+    "Within each acuity band, readmission stayed within one percentage point of its prior range.",
+    "Two units with unchanged case mix received the new workflow but had no material readmission increase.",
+    "One source feed omitted severity scores for 9% of May discharges."
+  ],
+  "expected": {
+    "status": "multiple_contributors_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": [
+      "acuity",
+      "case mix",
+      "severity"
+    ],
+    "forbidden_terms": [
+      "workflow caused the readmission"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion",
+      "inference"
+    ],
+    "allowed_confidence": [
+      "medium"
+    ],
+    "pass_score": 88
+  }
+}

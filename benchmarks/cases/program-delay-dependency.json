@@ -1,0 +1,32 @@
+{
+  "id": "program-delay-dependency",
+  "title": "Program milestone delay versus team productivity",
+  "prompt": "A transformation program is six weeks late. Leadership blames the implementation team. Determine the strongest explanation.",
+  "facts": [
+    "Implementation task cycle time remained within baseline.",
+    "Three critical milestones depend on an external data-sharing agreement.",
+    "The agreement was approved seven weeks late.",
+    "Tasks not dependent on the agreement finished on schedule.",
+    "Scope increased 4%, with no measurable effect on the critical path."
+  ],
+  "expected": {
+    "status": "root_cause_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": [
+      "dependency",
+      "agreement",
+      "critical"
+    ],
+    "forbidden_terms": [
+      "implementation team caused"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion"
+    ],
+    "allowed_confidence": [
+      "high"
+    ],
+    "pass_score": 88
+  }
+}

@@ -2,7 +2,7 @@ name: quality-gate
 
 on:
   push:
-    branches: [main]
+    branches: [main, system/investigation-core]
   pull_request:
 
 permissions:
@@ -11,6 +11,9 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -18,10 +21,16 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: python -m pip install -r requirements-dev.txt
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install -r requirements-dev.txt
+
+      - name: Compile package
+        run: python -m compileall -q evidence_first scripts efrc.py
 
       - name: Run tests
         run: pytest -q
@@ -29,5 +38,17 @@ jobs:
       - name: List benchmark cases
         run: python efrc.py cases
 
+      - name: List domain packs
+        run: python efrc.py domains
+
+      - name: List ablations
+        run: python efrc.py ablations
+
       - name: Validate canonical fixture
         run: python efrc.py validate tests/fixtures/valid_supported.json
+
+      - name: Run real-data demonstration
+        run: python examples/end_to_end_demo.py
+
+      - name: Prepare controlled evaluation packet
+        run: python scripts/evaluate_runner.py prepare price-vs-stockout --out .tmp-runs

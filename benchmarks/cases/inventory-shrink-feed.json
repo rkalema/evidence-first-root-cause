@@ -1,0 +1,33 @@
+{
+  "id": "inventory-shrink-feed",
+  "title": "Inventory shrink from stale feed",
+  "prompt": "Recorded inventory shrink doubled this month. Determine why.",
+  "facts": [
+    "Physical cycle counts show shrink unchanged from prior months.",
+    "The ERP on-hand denominator is missing receipts from one warehouse.",
+    "The affected warehouse represents 48% of monthly receipts.",
+    "The receipt interface failed intermittently for 11 days.",
+    "The shrink calculation uses ERP on-hand rather than physical count."
+  ],
+  "expected": {
+    "status": "data_quality_blocked",
+    "signal_trustworthy": false,
+    "min_hypotheses": 2,
+    "required_terms": [
+      "receipts",
+      "denominator",
+      "interface"
+    ],
+    "forbidden_terms": [
+      "theft caused",
+      "operational shrink doubled"
+    ],
+    "allowed_evidence_classes": [
+      "unknown"
+    ],
+    "allowed_confidence": [
+      "low"
+    ],
+    "pass_score": 92
+  }
+}

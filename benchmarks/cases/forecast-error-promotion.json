@@ -1,0 +1,34 @@
+{
+  "id": "forecast-error-promotion",
+  "title": "Forecast error versus demand regime shift",
+  "prompt": "Forecast MAPE doubled after a model upgrade. Determine why.",
+  "facts": [
+    "The model upgrade went live on June 15.",
+    "MAPE began increasing June 2.",
+    "A promotion changed weekly demand volume by 35% and category mix by 22%.",
+    "MAPE for stable non-promoted SKUs remained within historical range after the model upgrade.",
+    "The largest errors are concentrated in promoted SKUs with no comparable historical event.",
+    "Feature pipeline latency remained unchanged."
+  ],
+  "expected": {
+    "status": "root_cause_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": [
+      "promotion",
+      "promoted",
+      "historical"
+    ],
+    "forbidden_terms": [
+      "model upgrade caused"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion"
+    ],
+    "allowed_confidence": [
+      "high",
+      "medium"
+    ],
+    "pass_score": 88
+  }
+}

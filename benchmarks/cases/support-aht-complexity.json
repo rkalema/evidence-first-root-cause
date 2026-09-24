@@ -1,0 +1,33 @@
+{
+  "id": "support-aht-complexity",
+  "title": "Handle-time increase versus case complexity",
+  "prompt": "Support average handle time rose 21% after a knowledge-base redesign. Determine why.",
+  "facts": [
+    "The redesign launched week 4.",
+    "Handle time began increasing week 2.",
+    "Share of billing-dispute contacts rose from 12% to 31%.",
+    "Within contact type, handle time stayed within 3% of baseline.",
+    "Knowledge-base search success improved 8% after redesign.",
+    "Simple password-reset contacts showed no handle-time increase."
+  ],
+  "expected": {
+    "status": "root_cause_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": [
+      "billing-dispute",
+      "contact type",
+      "search"
+    ],
+    "forbidden_terms": [
+      "knowledge-base caused"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion"
+    ],
+    "allowed_confidence": [
+      "high"
+    ],
+    "pass_score": 88
+  }
+}

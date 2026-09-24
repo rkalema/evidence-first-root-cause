@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use Evidence-First in research, please cite the repository."
+title: "Evidence-First: An Evidence-Governed Investigation System for AI Agents"
+type: software
+authors:
+  - family-names: Kalema
+    given-names: Richard
+repository-code: "https://github.com/rkalema/evidence-first-root-cause"
+license: Apache-2.0
+keywords:
+  - artificial intelligence
+  - root cause analysis
+  - causal reasoning
+  - data analytics
+  - multi-agent systems
+  - evidence governance

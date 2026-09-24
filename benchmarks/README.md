@@ -1,23 +1,46 @@
-# Behavioral Benchmarks
+# Benchmark Laboratory
 
-These cases are designed to test whether an agent follows evidence-first reasoning under common analytical traps.
+The repository currently contains **20 adversarial cases** across operations, supply chain, customer analytics, healthcare operations, program performance, and AI/data incidents.
 
-## Important
+## Evaluation rule
 
-When evaluating a model, provide only:
+Models receive only:
 
 - `prompt`
 - `facts`
 
-Do **not** reveal the `expected` section to the model. It is the scoring key.
+They never receive the `expected` scoring key.
 
-## Run
+## Controlled comparison
+
+For matched baseline-versus-Evidence-First experiments:
+
+1. use the same model and configuration;
+2. use fresh contexts;
+3. keep the user incident/evidence identical;
+4. vary only the Evidence-First method layer;
+5. preserve raw outputs;
+6. validate schema before scoring;
+7. report every run, including failures;
+8. record cost/latency/tool calls when available.
+
+Prepare matched prompt packets:
 
 ```bash
-python efrc.py cases
-python efrc.py score benchmarks/cases/data-quality-denominator.json result.json
+python scripts/evaluate_runner.py prepare price-vs-stockout --out runs
 ```
 
-A result must first pass the canonical output schema. The benchmark scorer then checks explicit behavior expected for the case.
+Score and compare:
 
-The benchmark is intentionally deterministic and reproducible. It does not claim to prove scientific correctness beyond the facts encoded in each case.
+```bash
+python scripts/evaluate_runner.py score price-vs-stockout result.json
+python scripts/evaluate_runner.py compare price-vs-stockout baseline.json evidence-first.json
+```
+
+For a multi-case study, create a manifest with entries containing `case_id`, `baseline`, and `evidence_first`, then run:
+
+```bash
+python scripts/evaluate_runner.py suite manifest.json
+```
+
+The benchmark tests evidence discipline against encoded cases. It does not by itself establish universal scientific validity.

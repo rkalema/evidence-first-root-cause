@@ -1,0 +1,33 @@
+{
+  "id": "latency-traffic-mix",
+  "title": "AI latency versus traffic mix",
+  "prompt": "Median AI inference latency rose 55% after model version 4.2 was deployed. Determine why.",
+  "facts": [
+    "Version 4.2 launched to all requests on day 5.",
+    "Latency began rising on day 2.",
+    "Long-document traffic rose from 9% to 31% of requests during days 1-6.",
+    "Within each document-length bucket, latency changed less than 4% before versus after 4.2.",
+    "GPU utilization rose in proportion to long-document share.",
+    "Error rate remained flat."
+  ],
+  "expected": {
+    "status": "root_cause_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": [
+      "long-document",
+      "bucket",
+      "GPU"
+    ],
+    "forbidden_terms": [
+      "4.2 caused"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion"
+    ],
+    "allowed_confidence": [
+      "high"
+    ],
+    "pass_score": 90
+  }
+}

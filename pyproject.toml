@@ -1,3 +1,33 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "evidence-first"
+version = "1.0.0"
+description = "Evidence-governed investigation system for AI agents"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+dependencies = [
+  "jsonschema>=4.23,<5",
+  "pandas>=2.2,<3",
+  "openpyxl>=3.1,<4"
+]
+
+[project.scripts]
+efrc = "efrc:main"
+
+[tool.setuptools]
+py-modules = ["efrc"]
+
+[tool.setuptools.packages.find]
+include = ["evidence_first*", "scripts*", "benchmarks*", "schemas*"]
+
+[tool.setuptools.package-data]
+benchmarks = ["cases/*.json", "README.md"]
+schemas = ["*.json"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"

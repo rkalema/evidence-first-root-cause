@@ -1,0 +1,34 @@
+{
+  "id": "channel-mix-retention",
+  "title": "Acquisition mix versus onboarding",
+  "prompt": "Thirty-day retention fell from 82% to 69%. Product leadership blames a new onboarding flow. Determine the strongest supported explanation.",
+  "facts": [
+    "Retention began declining before the onboarding release.",
+    "Paid-social share of new users rose from 18% to 47%.",
+    "Paid-social retention is 61%, organic is 84%, direct/referral is 86%.",
+    "Retention within each acquisition channel is approximately stable.",
+    "Onboarding completion fell from 88% to 74%, but completer retention changed only from 84% to 83%.",
+    "About 12% of paid-social users were mis-tagged as direct/referral and historical data was not backfilled."
+  ],
+  "expected": {
+    "status": "multiple_contributors_supported",
+    "signal_trustworthy": true,
+    "min_hypotheses": 3,
+    "required_terms": [
+      "paid-social",
+      "completion",
+      "mis-tagged"
+    ],
+    "forbidden_terms": [
+      "onboarding caused the decline"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion",
+      "inference"
+    ],
+    "allowed_confidence": [
+      "medium"
+    ],
+    "pass_score": 90
+  }
+}

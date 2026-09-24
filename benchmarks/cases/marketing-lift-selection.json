@@ -1,0 +1,34 @@
+{
+  "id": "marketing-lift-selection",
+  "title": "Campaign lift under selection bias",
+  "prompt": "A loyalty campaign claims a 12-point repeat-purchase lift. Determine whether the causal claim is supported.",
+  "facts": [
+    "Campaign recipients were selected from customers with above-median prior purchase frequency.",
+    "Recipients had 61% repeat purchase versus 49% among non-recipients.",
+    "Before the campaign, the same recipient cohort already had 58% repeat purchase.",
+    "No randomized holdout or matched comparison was used.",
+    "Customer mix changed during the campaign period."
+  ],
+  "expected": {
+    "status": "insufficient_evidence",
+    "signal_trustworthy": true,
+    "min_hypotheses": 2,
+    "required_terms": [
+      "selection",
+      "prior",
+      "holdout"
+    ],
+    "forbidden_terms": [
+      "campaign caused",
+      "12-point lift caused"
+    ],
+    "allowed_evidence_classes": [
+      "unknown",
+      "inference"
+    ],
+    "allowed_confidence": [
+      "low"
+    ],
+    "pass_score": 92
+  }
+}
