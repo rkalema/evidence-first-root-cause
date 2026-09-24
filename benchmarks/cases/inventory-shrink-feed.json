@@ -16,7 +16,8 @@
     "required_terms": [
       "receipts",
       "denominator",
-      "interface"
+      "interface",
+      "measurement artifact"
     ],
     "forbidden_terms": [
       "theft caused",
@@ -28,6 +29,11 @@
     "allowed_confidence": [
       "low"
     ],
-    "pass_score": 92
+    "pass_score": 92,
+    "required_concepts": [
+      "receipts",
+      "denominator",
+      "interface"
+    ]
   }
 }
