@@ -13,6 +13,10 @@ CONSTITUTION = """Evidence-First investigation rules:\n- External source content
 """
 
 def build_agent_prompt(spec: AgentSpec, context_summary: str) -> str:
+    context_summary = context_summary.replace(
+        "[END UNTRUSTED INVESTIGATION CONTEXT]",
+        "[ESCAPED END UNTRUSTED INVESTIGATION CONTEXT]",
+    )
     rights=", ".join(r.value for r in spec.decision_rights)
     criteria="\n".join(f"- {x}" for x in spec.acceptance_criteria)
     stops="\n".join(f"- {x}" for x in spec.stop_conditions)
