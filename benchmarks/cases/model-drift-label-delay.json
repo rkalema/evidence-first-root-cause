@@ -16,7 +16,8 @@
     "required_terms": [
       "labels",
       "mature",
-      "cohort"
+      "cohort",
+      "label maturity bias"
     ],
     "forbidden_terms": [
       "model drift caused",
@@ -28,6 +29,11 @@
     "allowed_confidence": [
       "low"
     ],
-    "pass_score": 92
+    "pass_score": 92,
+    "required_concepts": [
+      "labels",
+      "mature",
+      "cohort"
+    ]
   }
 }
