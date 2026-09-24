@@ -4,6 +4,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
 
+from evidence_first.core.models import _deep_freeze
+
 
 class IssueSeverity(str, Enum):
     INFO = "info"
@@ -34,6 +36,9 @@ class IntakeRecord:
     source_id: str
     payload: dict[str, Any]
     row_number: int | None = None
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "payload", _deep_freeze(self.payload))
 
 
 @dataclass(frozen=True)
