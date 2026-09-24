@@ -13,10 +13,26 @@
     "status": "root_cause_supported",
     "signal_trustworthy": true,
     "min_hypotheses": 3,
-    "required_terms": ["calibration", "three"],
-    "forbidden_terms": ["supplier b caused", "supplier caused"],
-    "allowed_evidence_classes": ["conclusion"],
-    "allowed_confidence": ["medium", "high"],
-    "pass_score": 90
+    "required_terms": [
+      "calibration",
+      "three",
+      "cross-site counterexample"
+    ],
+    "forbidden_terms": [
+      "supplier b caused",
+      "supplier caused"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion"
+    ],
+    "allowed_confidence": [
+      "medium",
+      "high"
+    ],
+    "pass_score": 90,
+    "required_concepts": [
+      "calibration",
+      "three"
+    ]
   }
 }
