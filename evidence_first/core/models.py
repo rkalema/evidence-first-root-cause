@@ -3,6 +3,19 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
+from types import MappingProxyType
+
+
+def _deep_freeze(value: Any) -> Any:
+    if isinstance(value, dict):
+        return MappingProxyType({str(k): _deep_freeze(v) for k, v in value.items()})
+    if isinstance(value, list):
+        return tuple(_deep_freeze(v) for v in value)
+    if isinstance(value, tuple):
+        return tuple(_deep_freeze(v) for v in value)
+    if isinstance(value, set):
+        return frozenset(_deep_freeze(v) for v in value)
+    return value
 
 
 class EvidenceKind(str, Enum):
@@ -51,6 +64,7 @@ class EvidenceRecord:
             raise ValueError("evidence statement cannot be empty")
         if not self.source.strip():
             raise ValueError("evidence source cannot be empty")
+        object.__setattr__(self, "metadata", _deep_freeze(self.metadata))
 
 
 @dataclass(frozen=True)
