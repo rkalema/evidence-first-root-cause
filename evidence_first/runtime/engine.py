@@ -164,6 +164,19 @@ class InvestigationEngine:
                     )
                     result = self.adapter.run(spec, run.artifact_context())
 
+                if result.artifacts.get("tool_requests", []):
+                    run.stage = Stage.BLOCKED
+                    run.blocked_by = task.role.value
+                    run.events.append(
+                        InvestigationEvent(
+                            "tool_round_limit",
+                            run.stage.value,
+                            f"Evidence Analyst still requested tools after {self.max_tool_rounds} round(s).",
+                            task.role.value,
+                        )
+                    )
+                    return run
+
             violations = validate_agent_result(spec, result)
             if violations:
                 run.stage = Stage.BLOCKED
