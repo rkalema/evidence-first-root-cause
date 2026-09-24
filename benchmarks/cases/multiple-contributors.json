@@ -14,10 +14,28 @@
     "status": "multiple_contributors_supported",
     "signal_trustworthy": true,
     "min_hypotheses": 3,
-    "required_terms": ["45%", "31%", "18%"],
-    "forbidden_terms": ["single root cause", "sole cause"],
-    "allowed_evidence_classes": ["conclusion"],
-    "allowed_confidence": ["high", "medium"],
-    "pass_score": 90
+    "required_terms": [
+      "45%",
+      "31%",
+      "18%",
+      "contribution decomposition"
+    ],
+    "forbidden_terms": [
+      "single root cause",
+      "sole cause"
+    ],
+    "allowed_evidence_classes": [
+      "conclusion"
+    ],
+    "allowed_confidence": [
+      "high",
+      "medium"
+    ],
+    "pass_score": 90,
+    "required_concepts": [
+      "45%",
+      "31%",
+      "18%"
+    ]
   }
 }
