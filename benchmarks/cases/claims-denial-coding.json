@@ -17,7 +17,8 @@
     "required_terms": [
       "specialty",
       "prior-authorization",
-      "legacy"
+      "legacy",
+      "within-clinic localization"
     ],
     "forbidden_terms": [
       "billing-system caused"
@@ -28,6 +29,11 @@
     "allowed_confidence": [
       "high"
     ],
-    "pass_score": 90
+    "pass_score": 90,
+    "required_concepts": [
+      "specialty",
+      "prior-authorization",
+      "legacy"
+    ]
   }
 }
