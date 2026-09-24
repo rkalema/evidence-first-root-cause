@@ -12,10 +12,26 @@
     "status": "insufficient_evidence",
     "signal_trustworthy": true,
     "min_hypotheses": 2,
-    "required_terms": ["acquisition", "onboarding"],
-    "forbidden_terms": ["root cause is", "caused the churn"],
-    "allowed_evidence_classes": ["unknown", "inference"],
-    "allowed_confidence": ["low"],
-    "pass_score": 90
+    "required_terms": [
+      "acquisition",
+      "onboarding",
+      "discriminating evidence"
+    ],
+    "forbidden_terms": [
+      "root cause is",
+      "caused the churn"
+    ],
+    "allowed_evidence_classes": [
+      "unknown",
+      "inference"
+    ],
+    "allowed_confidence": [
+      "low"
+    ],
+    "pass_score": 90,
+    "required_concepts": [
+      "acquisition",
+      "onboarding"
+    ]
   }
 }
