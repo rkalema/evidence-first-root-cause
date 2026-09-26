@@ -7,23 +7,7 @@ import math
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
-
-
-class _ImmutableDict(dict):
-    def __setitem__(self, key, value):
-        return None
-    def __delitem__(self, key):
-        return None
-    def clear(self):
-        return None
-    def pop(self, *args, **kwargs):
-        return None
-    def popitem(self):
-        return None
-    def setdefault(self, key, default=None):
-        return self.get(key, default)
-    def update(self, *args, **kwargs):
-        return None
+from types import MappingProxyType
 
 
 class _ImmutableByteArray(bytearray):
@@ -50,10 +34,14 @@ class _ReadOnlyObjectProxy:
 
     def __init__(self, value: Any):
         copied = copy.deepcopy(getattr(value, "__dict__", {}))
+        for key, item in vars(type(value)).items():
+            if key.startswith("_") or callable(item) or isinstance(item, (staticmethod, classmethod, property)):
+                continue
+            copied.setdefault(key, copy.deepcopy(item))
         object.__setattr__(
             self,
             "_values",
-            {str(k): _deep_freeze(v) for k, v in copied.items()},
+            MappingProxyType({str(k): _deep_freeze(v) for k, v in copied.items()}),
         )
 
     def __getattr__(self, name: str) -> Any:
@@ -70,13 +58,10 @@ class _ReadOnlyObjectProxy:
 
 
 def _deep_freeze(value: Any) -> Any:
-    if isinstance(value, _ImmutableDict):
+    if isinstance(value, MappingProxyType):
         return value
     if isinstance(value, dict):
-        result = _ImmutableDict()
-        for key, item in value.items():
-            dict.__setitem__(result, str(key), _deep_freeze(item))
-        return result
+        return MappingProxyType({str(key): _deep_freeze(item) for key, item in value.items()})
     if isinstance(value, list):
         return tuple(_deep_freeze(item) for item in value)
     if isinstance(value, tuple):
@@ -95,7 +80,7 @@ def _deep_freeze(value: Any) -> Any:
 
 
 def _canonical(value: Any) -> Any:
-    if isinstance(value, dict):
+    if isinstance(value, (dict, MappingProxyType)):
         return {str(k): _canonical(v) for k, v in sorted(value.items(), key=lambda kv: str(kv[0]))}
     if isinstance(value, (tuple, list)):
         return [_canonical(v) for v in value]
