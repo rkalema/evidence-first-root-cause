@@ -72,7 +72,7 @@ def default_agent_registry():
     add(AgentRole.CONTRIBUTION_ANALYST,
         "Quantify contribution and impact without unsupported precision or double counting.",
         ["surviving_hypotheses","evidence_ledger","confound_findings"],
-        ["contribution_estimates","impact_estimates","precision_limits","draft_conclusion"],
+        ["draft_conclusion","contribution_estimates","impact_estimates","precision_limits"],
         [DecisionRight.READ_EVIDENCE,DecisionRight.QUANTIFY_CONTRIBUTION],
         ["evidence cannot support numerical attribution"],
         ["separates measured from estimated","does not sum overlapping contributions","uses unknown instead of fabricated precision"])

@@ -16,9 +16,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 4,
     "required_terms": [
-      "SDR",
-      "response",
-      "routing"
+      "identification limit"
     ],
     "forbidden_terms": [
       "root cause is pricing",
@@ -32,6 +30,11 @@
       "low",
       "medium"
     ],
-    "pass_score": 90
+    "pass_score": 90,
+    "required_concepts": [
+      "SDR",
+      "response",
+      "routing"
+    ]
   }
 }

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import sqlite3
 from dataclasses import dataclass
 from typing import Any
@@ -13,6 +14,11 @@ class SQLResult:
 
 
 class ReadOnlySQLTool:
+    _blocked = re.compile(
+        r"\b(insert|update|delete|drop|alter|create|replace|attach|detach|vacuum|pragma)\b",
+        re.IGNORECASE,
+    )
+
     """Execute bounded read-only SQLite queries.
 
     Safety does not rely on SQL string matching. SQLite's authorizer rejects
@@ -31,7 +37,7 @@ class ReadOnlySQLTool:
         connection: sqlite3.Connection,
         *,
         max_rows: int = 10_000,
-        progress_steps: int = 100_000,
+        progress_steps: int = 1_000,
     ):
         if max_rows < 1:
             raise ValueError("max_rows must be positive")
@@ -53,6 +59,8 @@ class ReadOnlySQLTool:
         statement = sql.strip()
         if not statement:
             raise ValueError("SQL cannot be empty")
+        if self._blocked.search(statement):
+            raise ValueError("only read-only SQL queries are allowed")
 
         budget = {"ticks": 0}
 

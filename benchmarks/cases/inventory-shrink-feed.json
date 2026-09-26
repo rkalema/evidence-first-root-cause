@@ -14,9 +14,7 @@
     "signal_trustworthy": false,
     "min_hypotheses": 2,
     "required_terms": [
-      "receipts",
-      "denominator",
-      "interface"
+      "source-system integrity"
     ],
     "forbidden_terms": [
       "theft caused",
@@ -28,6 +26,11 @@
     "allowed_confidence": [
       "low"
     ],
-    "pass_score": 92
+    "pass_score": 92,
+    "required_concepts": [
+      "receipts",
+      "denominator",
+      "interface"
+    ]
   }
 }

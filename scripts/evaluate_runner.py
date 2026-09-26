@@ -13,10 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CASES = ROOT / "benchmarks" / "cases"
 
 BASELINE_SYSTEM = "You are an analytical assistant. Use only supplied evidence. Do not invent facts."
-EF_SYSTEM = (
-    "Use the Evidence-First Root Cause method exactly. Preserve uncertainty, "
-    "test alternatives, seek contradictions, and do not invent evidence."
-)
+EF_SYSTEM = (ROOT / "SKILL.md").read_text(encoding="utf-8")
 
 
 def load_case(case_id: str) -> dict:
@@ -26,9 +23,10 @@ def load_case(case_id: str) -> dict:
 def user_prompt(case: dict) -> str:
     facts = "\n".join(f"- {x}" for x in case["facts"])
     return (
-        f'{case["prompt"]}\n\n'
+        "Analyze the incident below and determine the strongest explanation supported by the evidence. "
+        "Use only the supplied evidence and do not invent missing facts.\n\n"
         f"EVIDENCE\n{facts}\n\n"
-        "Return the canonical Evidence-First JSON output contract."
+        f"Set case_id to {case['id']!r}. Return the canonical Evidence-First JSON output contract."
     )
 
 
@@ -56,6 +54,10 @@ def prepare(case_id: str, out: Path) -> tuple[Path, Path]:
 def score_result(case_id: str, result_path: Path) -> dict:
     result = json.loads(result_path.read_text(encoding="utf-8"))
     errors = validate_document(result)
+    if result.get("case_id") != case_id:
+        errors.append(
+            f"<root>: result case_id {result.get('case_id')!r} does not match requested case {case_id!r}"
+        )
     if errors:
         return {"valid_schema": False, "errors": errors, "passed": False, "score": 0}
     return {"valid_schema": True, **score(load_case(case_id), result)}

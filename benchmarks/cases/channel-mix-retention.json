@@ -15,9 +15,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "paid-social",
-      "completion",
-      "mis-tagged"
+      "composition effect"
     ],
     "forbidden_terms": [
       "onboarding caused the decline"
@@ -29,6 +27,11 @@
     "allowed_confidence": [
       "medium"
     ],
-    "pass_score": 90
+    "pass_score": 90,
+    "required_concepts": [
+      "paid-social",
+      "completion",
+      "mis-tagged"
+    ]
   }
 }

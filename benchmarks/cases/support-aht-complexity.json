@@ -15,9 +15,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "billing-dispute",
-      "contact type",
-      "search"
+      "case-mix composition"
     ],
     "forbidden_terms": [
       "knowledge-base caused"
@@ -28,6 +26,11 @@
     "allowed_confidence": [
       "high"
     ],
-    "pass_score": 88
+    "pass_score": 88,
+    "required_concepts": [
+      "billing-dispute",
+      "contact type",
+      "search"
+    ]
   }
 }

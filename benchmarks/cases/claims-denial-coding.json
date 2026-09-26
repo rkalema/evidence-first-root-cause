@@ -15,9 +15,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "specialty",
-      "prior-authorization",
-      "legacy"
+      "population-mix decomposition"
     ],
     "forbidden_terms": [
       "billing-system caused"
@@ -28,6 +26,11 @@
     "allowed_confidence": [
       "high"
     ],
-    "pass_score": 90
+    "pass_score": 90,
+    "required_concepts": [
+      "specialty",
+      "prior-authorization",
+      "legacy"
+    ]
   }
 }

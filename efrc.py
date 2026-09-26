@@ -59,13 +59,18 @@ def cmd_intake(path: Path) -> int:
     if ext in {".xlsx", ".xlsm"}:
         result = ingest_xlsx_bytes(path.read_bytes(), source_id=path.name)
     else:
-        text = path.read_text(encoding="utf-8")
+        raw = path.read_bytes()
+        try:
+            text = raw.decode("utf-8-sig")
+        except UnicodeDecodeError as exc:
+            print(json.dumps({"valid": False, "error": f"decode error: {exc}"}))
+            return 1
         if ext == ".csv":
-            result = ingest_csv(text, source_id=path.name)
+            result = ingest_csv(text, source_id=path.name, raw_bytes=raw)
         elif ext == ".json":
-            result = ingest_json(text, source_id=path.name)
+            result = ingest_json(text, source_id=path.name, raw_bytes=raw)
         else:
-            result = ingest_text(text, source_id=path.name)
+            result = ingest_text(text, source_id=path.name, raw_bytes=raw)
 
     payload = {
         "valid": result.valid,

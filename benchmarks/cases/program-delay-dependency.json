@@ -14,9 +14,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "dependency",
-      "agreement",
-      "critical"
+      "critical-path dependency"
     ],
     "forbidden_terms": [
       "implementation team caused"

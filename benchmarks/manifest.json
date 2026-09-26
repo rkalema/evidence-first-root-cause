@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "algorithm": "git-blob-sha1",
+  "files": [
+    {
+      "path": "cases/price-vs-stockout.json",
+      "git_blob_sha1": "71f847f47a65e64475a614f4833d354507fdb5dd"
+    },
+    {
+      "path": "cases/absenteeism-confounder.json",
+      "git_blob_sha1": "aba888064c65e0f81892554a729b5e9c50324070"
+    },
+    {
+      "path": "cases/data-quality-denominator.json",
+      "git_blob_sha1": "46de423fbb17dd3ee8d94094285d67cf3483e8e0"
+    },
+    {
+      "path": "cases/multiple-contributors.json",
+      "git_blob_sha1": "db4a192fa7ac6385915421d419ee37a8ce37f251"
+    },
+    {
+      "path": "cases/insufficient-evidence.json",
+      "git_blob_sha1": "523a6f53a26b16e5535973fd36cb3ec1bacb0f73"
+    },
+    {
+      "path": "cases/contradictory-supplier.json",
+      "git_blob_sha1": "0fc846639423beb458f45c2f1a50b27fb998ceaa"
+    },
+    {
+      "path": "cases/channel-mix-retention.json",
+      "git_blob_sha1": "4f28ba166385cea4830055d2713157c1f0235bcc"
+    },
+    {
+      "path": "cases/routing-vs-lead-mix.json",
+      "git_blob_sha1": "f40fedcf5a058c1816b081d2383566dbb50477f5"
+    },
+    {
+      "path": "cases/hospital-readmission-case-mix.json",
+      "git_blob_sha1": "8c8f90ff552e63aef0efd0849222db8948fad5b3"
+    },
+    {
+      "path": "cases/forecast-error-promotion.json",
+      "git_blob_sha1": "8d9d2db0a60c02ef81c3bb4b24c091db527224f5"
+    },
+    {
+      "path": "cases/supplier-delay-port.json",
+      "git_blob_sha1": "2c47bd62e42f35df682fa82a7c113bbebbfa6156"
+    },
+    {
+      "path": "cases/conversion-denominator-change.json",
+      "git_blob_sha1": "187dd7b3ecb8a646c626d61723a451aa8d381b36"
+    },
+    {
+      "path": "cases/latency-traffic-mix.json",
+      "git_blob_sha1": "c7f03a16a8c7e33767355ee5dc5bd39861cf30e5"
+    },
+    {
+      "path": "cases/program-delay-dependency.json",
+      "git_blob_sha1": "3be9d4a49e244f0465474e02853e46766719174e"
+    },
+    {
+      "path": "cases/warehouse-pick-path.json",
+      "git_blob_sha1": "6ffc4d8860ebfafd2dd26b759fb64ca3c500f9ac"
+    },
+    {
+      "path": "cases/marketing-lift-selection.json",
+      "git_blob_sha1": "111f1d3cd80ae0587f05ba214de5353fd8d5c948"
+    },
+    {
+      "path": "cases/claims-denial-coding.json",
+      "git_blob_sha1": "750864a8398e9e56b8bb466a8207c1e199b8caba"
+    },
+    {
+      "path": "cases/inventory-shrink-feed.json",
+      "git_blob_sha1": "b56175ea13953c85b230a4fb2d482a3f6705377c"
+    },
+    {
+      "path": "cases/support-aht-complexity.json",
+      "git_blob_sha1": "c93e25ae6c07f7a471a07f71d89e45bf930766c9"
+    },
+    {
+      "path": "cases/model-drift-label-delay.json",
+      "git_blob_sha1": "8f62eda8e0121a890ae9631351d1a225b23c0b26"
+    }
+  ]
+}

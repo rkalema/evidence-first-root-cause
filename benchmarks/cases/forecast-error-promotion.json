@@ -15,9 +15,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "promotion",
-      "promoted",
-      "historical"
+      "regime shift"
     ],
     "forbidden_terms": [
       "model upgrade caused"
@@ -29,6 +27,11 @@
       "high",
       "medium"
     ],
-    "pass_score": 88
+    "pass_score": 88,
+    "required_concepts": [
+      "promotion",
+      "promoted",
+      "historical"
+    ]
   }
 }

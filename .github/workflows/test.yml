@@ -2,7 +2,7 @@ name: quality-gate
 
 on:
   push:
-    branches: [main, system/investigation-core]
+    branches: [main, system/investigation-core, hardening/redteam]
   pull_request:
 
 permissions:
@@ -32,8 +32,14 @@ jobs:
       - name: Compile package
         run: python -m compileall -q evidence_first scripts efrc.py
 
-      - name: Run tests
+      - name: Run red-team durability suite
+        run: pytest redteam -q
+
+      - name: Run full test suite
         run: pytest -q
+
+      - name: Verify benchmark integrity
+        run: python scripts/verify_benchmark_manifest.py
 
       - name: List benchmark cases
         run: python efrc.py cases

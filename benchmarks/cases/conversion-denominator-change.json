@@ -14,9 +14,7 @@
     "signal_trustworthy": false,
     "min_hypotheses": 2,
     "required_terms": [
-      "sessions",
-      "consent",
-      "denominator"
+      "measurement discontinuity"
     ],
     "forbidden_terms": [
       "marketing caused",
