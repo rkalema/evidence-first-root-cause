@@ -32,7 +32,10 @@ jobs:
       - name: Compile package
         run: python -m compileall -q evidence_first scripts efrc.py
 
-      - name: Run tests
+      - name: Run red-team durability suite
+        run: pytest redteam -q
+
+      - name: Run full test suite
         run: pytest -q
 
       - name: Verify benchmark integrity
