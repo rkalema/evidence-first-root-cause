@@ -29,5 +29,5 @@ benchmarks = ["cases/*.json", "README.md"]
 schemas = ["*.json"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "redteam"]
 addopts = "-ra"
