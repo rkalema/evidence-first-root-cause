@@ -14,9 +14,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 2,
     "required_terms": [
-      "selection",
-      "prior",
-      "holdout"
+      "selection bias"
     ],
     "forbidden_terms": [
       "campaign caused",
