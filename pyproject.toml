@@ -15,6 +15,11 @@ dependencies = [
   "openpyxl>=3.1,<4"
 ]
 
+[project.optional-dependencies]
+openai = ["openai"]
+anthropic = ["anthropic"]
+providers = ["openai", "anthropic"]
+
 [project.scripts]
 efrc = "efrc:main"
 
