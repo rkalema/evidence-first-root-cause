@@ -35,6 +35,9 @@ jobs:
       - name: Run tests
         run: pytest -q
 
+      - name: Verify benchmark integrity
+        run: python scripts/verify_benchmark_manifest.py
+
       - name: List benchmark cases
         run: python efrc.py cases
 
