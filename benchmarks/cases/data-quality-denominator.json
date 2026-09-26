@@ -14,9 +14,7 @@
     "signal_trustworthy": false,
     "min_hypotheses": 1,
     "required_terms": [
-      "denominator",
-      "admissions",
-      "denominator distortion"
+      "denominator integrity"
     ],
     "forbidden_terms": [
       "clinical care caused",
