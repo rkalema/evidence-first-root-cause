@@ -14,10 +14,7 @@
     "signal_trustworthy": false,
     "min_hypotheses": 2,
     "required_terms": [
-      "receipts",
-      "denominator",
-      "interface",
-      "measurement artifact"
+      "source-system integrity"
     ],
     "forbidden_terms": [
       "theft caused",
