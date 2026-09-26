@@ -14,10 +14,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "slotting",
-      "walking",
-      "zones",
-      "quasi-control comparison"
+      "process-layout confounding"
     ],
     "forbidden_terms": [
       "scanner caused"
