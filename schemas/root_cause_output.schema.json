@@ -5,6 +5,7 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
+    "case_id",
     "status",
     "problem",
     "signal_validation",
