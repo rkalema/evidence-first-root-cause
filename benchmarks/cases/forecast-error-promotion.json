@@ -15,9 +15,6 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "promotion",
-      "promoted",
-      "historical",
       "regime shift"
     ],
     "forbidden_terms": [
