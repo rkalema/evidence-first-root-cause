@@ -207,6 +207,16 @@ class InvestigationRun:
             else:
                 merged["validated_signal"] = {"trustworthy": bool(signal)}
 
+        if (
+            "validated_signal" not in merged
+            and "blocking_reason" in merged
+            and merged["blocking_reason"]
+        ):
+            merged["validated_signal"] = {
+                "trustworthy": None,
+                "warning": _deepcopy_or_raise(merged["blocking_reason"]),
+            }
+
         if "segmentation_results" not in merged and "analysis_results" in merged:
             merged["segmentation_results"] = {}
 
