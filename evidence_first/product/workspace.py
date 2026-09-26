@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any
+from collections.abc import Mapping
 
 from evidence_first.reporting import render_investigation_report
 from evidence_first.runtime import InvestigationRun, save_run
@@ -17,7 +18,7 @@ def _json_safe(value: Any) -> Any:
         return _json_safe(asdict(value))
     if isinstance(value, Enum):
         return value.value
-    if isinstance(value, dict):
+    if isinstance(value, Mapping):
         return {str(k): _json_safe(v) for k, v in value.items()}
     if isinstance(value, (list, tuple, set, frozenset)):
         return [_json_safe(v) for v in value]
