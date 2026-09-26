@@ -15,10 +15,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "specialty",
-      "prior-authorization",
-      "legacy",
-      "within-clinic localization"
+      "population-mix decomposition"
     ],
     "forbidden_terms": [
       "billing-system caused"
