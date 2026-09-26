@@ -9,7 +9,6 @@ import pandas as pd
 
 from evidence_first.core.models import EvidenceKind, EvidenceRecord
 from evidence_first.intake import ingest_csv, ingest_json, ingest_text, ingest_xlsx_bytes
-from evidence_first.intake.evidence_adapter import to_evidence_payloads
 from evidence_first.runtime import ToolExecutionBroker
 from evidence_first.tools.multisource import multisource_dataframe_registry
 
@@ -147,8 +146,16 @@ def prepare_sources(paths: list[Path]) -> PreparedSources:
                     }
                     for issue in result.issues
                 ],
-                "sample": to_evidence_payloads(result)[
-                    : min(5, len(result.records))
+                "sample": [
+                    {
+                        "record_id": record.record_id,
+                        "row_number": record.row_number,
+                        "payload": {
+                            str(key): value
+                            for key, value in dict(record.payload).items()
+                        },
+                    }
+                    for record in result.records[:5]
                 ],
             }
         )
