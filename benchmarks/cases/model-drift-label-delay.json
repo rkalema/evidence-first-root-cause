@@ -14,10 +14,7 @@
     "signal_trustworthy": false,
     "min_hypotheses": 2,
     "required_terms": [
-      "labels",
-      "mature",
-      "cohort",
-      "label maturity bias"
+      "outcome maturity"
     ],
     "forbidden_terms": [
       "model drift caused",
