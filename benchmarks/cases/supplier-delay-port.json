@@ -14,9 +14,6 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "port",
-      "dwell",
-      "factory-ready",
       "shared exposure"
     ],
     "forbidden_terms": [
