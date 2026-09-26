@@ -131,7 +131,6 @@ def prepare_sources(paths: list[Path]) -> PreparedSources:
         inventory.append(
             {
                 "source_id": result.source.source_id,
-                "path": str(path),
                 "source_type": result.source.source_type,
                 "fingerprint": result.source.fingerprint,
                 "byte_size": result.source.byte_size,
@@ -183,6 +182,8 @@ def prepare_sources(paths: list[Path]) -> PreparedSources:
             record.evidence_id for record in evidence
         } | {
             item["fingerprint"] for item in inventory
+        } | {
+            item["source_id"] for item in inventory
         }
         broker = ToolExecutionBroker(
             registry,
