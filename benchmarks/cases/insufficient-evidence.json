@@ -13,9 +13,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 2,
     "required_terms": [
-      "acquisition",
-      "onboarding",
-      "discriminating evidence"
+      "identifiability"
     ],
     "forbidden_terms": [
       "root cause is",
