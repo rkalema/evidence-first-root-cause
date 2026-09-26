@@ -185,6 +185,49 @@ class InvestigationRun:
                 if key not in merged:
                     merged[key] = value
 
+        # Canonical handoff aliases are synthesized by the runtime, not trusted
+        # from callers. This keeps older adapters compatible without weakening
+        # the governed data flow.
+        if "available_evidence_inventory" not in merged and "intake_manifest" in merged:
+            merged["available_evidence_inventory"] = _deepcopy_or_raise(
+                merged["intake_manifest"]
+            )
+
+        if "validated_signal" not in merged and "signal_validation_result" in merged:
+            signal = merged["signal_validation_result"]
+            if isinstance(signal, dict):
+                merged["validated_signal"] = {
+                    "trustworthy": bool(signal.get("trustworthy", False)),
+                    **{
+                        str(k): _deepcopy_or_raise(v)
+                        for k, v in signal.items()
+                        if k != "trustworthy"
+                    },
+                }
+            else:
+                merged["validated_signal"] = {"trustworthy": bool(signal)}
+
+        if "segmentation_results" not in merged and "analysis_results" in merged:
+            merged["segmentation_results"] = {}
+
+        if (
+            "surviving_hypotheses" not in merged
+            and self.state is not None
+            and self.state.hypotheses.all
+        ):
+            merged["surviving_hypotheses"] = [
+                h.hypothesis_id
+                for h in self.state.hypotheses.all
+                if h.status.value != "not_supported"
+            ]
+
+        if "draft_conclusion" not in merged and "contribution_estimates" in merged:
+            merged["draft_conclusion"] = {
+                "contribution_estimates": _deepcopy_or_raise(
+                    merged["contribution_estimates"]
+                )
+            }
+
         merged["artifacts_by_role"] = by_role
         if self.state is not None:
             merged["evidence_ledger"] = _ledger_snapshot(self.state)
