@@ -14,9 +14,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "calibration",
-      "three",
-      "cross-site counterexample"
+      "cross-site comparison"
     ],
     "forbidden_terms": [
       "supplier b caused",
