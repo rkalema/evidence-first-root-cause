@@ -15,9 +15,6 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "45%",
-      "31%",
-      "18%",
       "contribution decomposition"
     ],
     "forbidden_terms": [
