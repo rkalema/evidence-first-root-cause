@@ -15,9 +15,8 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "stockout",
-      "72%",
-      "temporal inconsistency"
+      "temporal precedence",
+      "counterfactual comparison"
     ],
     "forbidden_terms": [
       "price increase caused",
