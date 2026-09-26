@@ -14,9 +14,8 @@
     "signal_trustworthy": true,
     "min_hypotheses": 3,
     "required_terms": [
-      "hvac",
-      "closure",
-      "common-cause confounding"
+      "common cause",
+      "confounding"
     ],
     "forbidden_terms": [
       "absenteeism caused",
