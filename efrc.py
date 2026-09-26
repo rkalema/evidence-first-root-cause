@@ -168,8 +168,8 @@ def _config_from_args(args, *, persist_if_new: bool = False) -> ProductConfig:
     if existing is None:
         if getattr(args, "provider", None) and getattr(args, "model", None):
             command = ()
-            if getattr(args, "command", None):
-                command = parse_command(args.command)
+            if getattr(args, "provider_command", None):
+                command = parse_command(args.provider_command)
             existing = ProductConfig(
                 provider=args.provider,
                 model=args.model,
@@ -198,8 +198,8 @@ def _config_from_args(args, *, persist_if_new: bool = False) -> ProductConfig:
         changes["model"] = args.model
     if getattr(args, "runs_dir", None):
         changes["runs_dir"] = args.runs_dir
-    if getattr(args, "command", None):
-        changes["command"] = parse_command(args.command)
+    if getattr(args, "provider_command", None):
+        changes["command"] = parse_command(args.provider_command)
 
     if changes:
         existing = replace(existing, **changes)
@@ -395,7 +395,7 @@ def build_parser() -> argparse.ArgumentParser:
     cmd = sub.add_parser("init", help="Configure a model provider.")
     cmd.add_argument("--provider", choices=("openai", "anthropic", "command"))
     cmd.add_argument("--model")
-    cmd.add_argument("--command")
+    cmd.add_argument("--command", dest="provider_command")
     cmd.add_argument("--runs-dir")
     cmd.add_argument("--config", type=Path)
 
