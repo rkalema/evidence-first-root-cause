@@ -16,10 +16,7 @@
     "signal_trustworthy": true,
     "min_hypotheses": 4,
     "required_terms": [
-      "SDR",
-      "response",
-      "routing",
-      "attribution ambiguity"
+      "identification limit"
     ],
     "forbidden_terms": [
       "root cause is pricing",
