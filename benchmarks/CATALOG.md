@@ -10,7 +10,7 @@ The benchmark corpus spans these broad analytical categories:
 - common-cause confounding
 - denominator and measurement integrity
 - multi-contributor incidents
-- insufficient-evidence decisions
+- appropriate uncertainty and evidence-insufficiency decisions
 - contradictory comparison groups
 - composition / mix shifts
 - selection effects
