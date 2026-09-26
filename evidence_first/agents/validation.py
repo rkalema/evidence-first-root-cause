@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
 
 from .base import AgentRole, AgentSpec, DecisionRight
 from .result import AgentDecision, AgentResult
@@ -13,20 +12,20 @@ class ContractViolation:
     message: str
 
 
-MANDATORY_OUTPUTS: dict[AgentRole, tuple[str, ...]] = {
-    AgentRole.EVIDENCE_INTAKE_COORDINATOR: ("available_evidence_inventory",),
-    AgentRole.INVESTIGATION_PLANNER: ("investigation_plan",),
-    AgentRole.SIGNAL_VALIDATOR: ("validated_signal",),
-    AgentRole.DATA_QUALITY_INVESTIGATOR: ("data_quality_findings",),
-    AgentRole.HYPOTHESIS_GENERATOR: ("hypotheses",),
-    AgentRole.EVIDENCE_ANALYST: ("segmentation_results",),
-    AgentRole.CONTRADICTION_INVESTIGATOR: ("surviving_hypotheses",),
-    AgentRole.CONFOUND_REVIEWER: ("confound_findings",),
-    AgentRole.CONTRIBUTION_ANALYST: ("draft_conclusion",),
-    AgentRole.CRITIC: ("critic_approved_conclusion",),
-    AgentRole.INTERVENTION_PLANNER: ("validation_plan",),
-    AgentRole.OUTCOME_EVALUATOR: ("outcome_assessment",),
-    AgentRole.MEMORY_CURATOR: ("memory_entries",),
+MANDATORY_OUTPUT_GROUPS: dict[AgentRole, tuple[tuple[str, ...], ...]] = {
+    AgentRole.EVIDENCE_INTAKE_COORDINATOR: (("available_evidence_inventory", "intake_manifest"),),
+    AgentRole.INVESTIGATION_PLANNER: (("investigation_plan",),),
+    AgentRole.SIGNAL_VALIDATOR: (("validated_signal", "signal_validation_result", "blocking_reason"),),
+    AgentRole.DATA_QUALITY_INVESTIGATOR: (("data_quality_findings", "blocking_reason"),),
+    AgentRole.HYPOTHESIS_GENERATOR: (("hypotheses",),),
+    AgentRole.EVIDENCE_ANALYST: (("segmentation_results", "analysis_results", "tool_requests"),),
+    AgentRole.CONTRADICTION_INVESTIGATOR: (("surviving_hypotheses", "contradiction_findings"),),
+    AgentRole.CONFOUND_REVIEWER: (("confound_findings",),),
+    AgentRole.CONTRIBUTION_ANALYST: (("draft_conclusion", "contribution_estimates"),),
+    AgentRole.CRITIC: (("critic_approved_conclusion", "critic_verdict"),),
+    AgentRole.INTERVENTION_PLANNER: (("validation_plan",),),
+    AgentRole.OUTCOME_EVALUATOR: (("outcome_assessment",),),
+    AgentRole.MEMORY_CURATOR: (("memory_entries",),),
 }
 
 
@@ -70,18 +69,14 @@ def validate_agent_result(
         )
 
     if require_outputs and result.decision is AgentDecision.CONTINUE:
-        missing = [
-            name
-            for name in MANDATORY_OUTPUTS.get(spec.role, ())
-            if name not in result.artifacts
-        ]
-        if missing:
-            problems.append(
-                ContractViolation(
-                    "missing_required_output",
-                    "missing required output(s): " + ", ".join(missing),
+        for alternatives in MANDATORY_OUTPUT_GROUPS.get(spec.role, ()):
+            if not any(name in result.artifacts for name in alternatives):
+                problems.append(
+                    ContractViolation(
+                        "missing_required_output",
+                        "missing one required output from: " + ", ".join(alternatives),
+                    )
                 )
-            )
 
     if result.decision is AgentDecision.COMPLETE and (
         DecisionRight.APPROVE_FINAL_CONCLUSION not in spec.decision_rights
