@@ -160,36 +160,67 @@ Primary outcomes include false causal conclusion rate, correct insufficient-evid
 
 ## Quick start
 
+A new user can verify the installation, run a complete deterministic demonstration, and then investigate their own evidence without editing Python code.
+
 ```bash
+git clone https://github.com/rkalema/evidence-first-root-cause
+cd evidence-first-root-cause
 python -m pip install -e .
-pytest -q
-python efrc.py cases
-python efrc.py domains
-python efrc.py ablations
+efrc doctor
+efrc demo
 ```
 
-Inspect an evidence source:
+The demo creates a full auditable workspace containing:
+
+- `report.md`
+- `run.json`
+- `evidence.json`
+- `hypotheses.json`
+- `audit.json`
+- `result.json`
+- `manifest.json`
+
+To investigate your own files, configure a provider once:
 
 ```bash
-python efrc.py intake path/to/data.csv
+efrc init
 ```
 
-Run the real-data pipeline demonstration:
+Then run:
 
 ```bash
-python examples/end_to_end_demo.py
+efrc investigate \
+  --question "Why did our same-day delivery SLA fall?" \
+  --source delivery_data.xlsx
+```
+
+Repeat `--source` for multiple files. Evidence-First supports CSV, JSON, text/Markdown, XLSX, and XLSM inputs. Domain selection defaults to automatic detection but can be set explicitly.
+
+OpenAI and Anthropic providers are optional extras:
+
+```bash
+python -m pip install -e ".[openai]"
+python -m pip install -e ".[anthropic]"
+```
+
+A provider-neutral command adapter is also available for local or external harnesses.
+
+Inspect one evidence source without running an investigation:
+
+```bash
+efrc intake path/to/data.csv
 ```
 
 Validate a canonical structured investigation output:
 
 ```bash
-python efrc.py validate result.json
+efrc validate result.json
 ```
 
 Score it against a benchmark:
 
 ```bash
-python efrc.py score benchmarks/cases/data-quality-denominator.json result.json
+efrc score benchmarks/cases/data-quality-denominator.json result.json
 ```
 
 ## Agent integrations
