@@ -4,8 +4,9 @@ import json
 import os
 import shutil
 import tempfile
-from dataclasses import asdict, is_dataclass
+from dataclasses import fields, is_dataclass
 from enum import Enum
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
@@ -14,10 +15,13 @@ from .engine import InvestigationRun
 
 def _json_safe(value: Any) -> Any:
     if is_dataclass(value):
-        return _json_safe(asdict(value))
+        return {
+            field.name: _json_safe(getattr(value, field.name))
+            for field in fields(value)
+        }
     if isinstance(value, Enum):
         return value.value
-    if isinstance(value, dict):
+    if isinstance(value, Mapping):
         return {
             json.dumps(_json_safe(k), sort_keys=True)
             if not isinstance(k, str)
