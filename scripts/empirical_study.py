@@ -115,6 +115,8 @@ def _anthropic_call(model: str, system: str, user: str, max_tokens: int) -> tupl
         model=model,
         max_tokens=max_tokens,
         system=system,
+        thinking={"type": "adaptive"},
+        output_config={"effort": "medium"},
         messages=[{"role": "user", "content": user}],
     )
     elapsed = time.perf_counter() - t0
@@ -128,9 +130,10 @@ def _anthropic_call(model: str, system: str, user: str, max_tokens: int) -> tupl
         "elapsed_seconds": elapsed,
         "input_tokens": getattr(usage, "input_tokens", None),
         "output_tokens": getattr(usage, "output_tokens", None),
-        "provider_request_id": getattr(response, "id", None),
+        "provider_request_id": getattr(response, "_request_id", None) or getattr(response, "id", None),
         "provider": "anthropic",
-        "model": model,
+        "model_requested": model,
+        "model_returned": getattr(response, "model", None),
     }
     return _parse_json_object(text), metadata
 
