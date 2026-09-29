@@ -424,7 +424,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     cmd.add_argument("--provider", choices=("openai", "anthropic", "command"))
     cmd.add_argument("--model")
-    cmd.add_argument("--command")
+    cmd.add_argument("--command", dest="provider_command")
     cmd.add_argument("--runs-dir")
     cmd.add_argument("--config", type=Path)
     cmd.add_argument("--out", type=Path)
