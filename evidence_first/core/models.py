@@ -172,6 +172,10 @@ class EvidenceRecord:
         ).hexdigest()
         object.__setattr__(self, "content_hash", digest)
 
+    def __deepcopy__(self, memo):
+        # The record is sealed and its nested metadata is immutable.
+        return self
+
     def verify_integrity(self) -> bool:
         payload = {
             "evidence_id": self.evidence_id,
