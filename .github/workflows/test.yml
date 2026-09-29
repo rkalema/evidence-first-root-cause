@@ -53,6 +53,12 @@ jobs:
       - name: Validate canonical fixture
         run: python efrc.py validate tests/fixtures/valid_supported.json
 
+      - name: Verify self-service doctor
+        run: python efrc.py doctor
+
+      - name: Run self-service demo
+        run: python efrc.py demo --out .tmp-demo
+
       - name: Run real-data demonstration
         run: python examples/end_to_end_demo.py
 
