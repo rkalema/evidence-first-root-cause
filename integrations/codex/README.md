@@ -1,0 +1,1 @@
+Codex integration: use repository project instructions to expose Evidence-First contracts and read-only tools. The governed runtime owns sequencing and state; Codex is an execution harness, not the source of truth. Gold benchmark expectations are never placed in model context.

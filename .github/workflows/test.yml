@@ -2,7 +2,7 @@ name: quality-gate
 
 on:
   push:
-    branches: [main]
+    branches: [main, system/investigation-core, hardening/redteam]
   pull_request:
 
 permissions:
@@ -11,6 +11,9 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -18,16 +21,46 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: python -m pip install -r requirements-dev.txt
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install -r requirements-dev.txt
 
-      - name: Run tests
+      - name: Compile package
+        run: python -m compileall -q evidence_first scripts efrc.py
+
+      - name: Run red-team durability suite
+        run: pytest redteam -q
+
+      - name: Run full test suite
         run: pytest -q
+
+      - name: Verify benchmark integrity
+        run: python scripts/verify_benchmark_manifest.py
 
       - name: List benchmark cases
         run: python efrc.py cases
 
+      - name: List domain packs
+        run: python efrc.py domains
+
+      - name: List ablations
+        run: python efrc.py ablations
+
       - name: Validate canonical fixture
         run: python efrc.py validate tests/fixtures/valid_supported.json
+
+      - name: Verify self-service doctor
+        run: python efrc.py doctor
+
+      - name: Run self-service demo
+        run: python efrc.py demo --out .tmp-demo
+
+      - name: Run real-data demonstration
+        run: python examples/end_to_end_demo.py
+
+      - name: Prepare controlled evaluation packet
+        run: python scripts/evaluate_runner.py prepare price-vs-stockout --out .tmp-runs
