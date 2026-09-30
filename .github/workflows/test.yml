@@ -64,3 +64,9 @@ jobs:
 
       - name: Prepare controlled evaluation packet
         run: python scripts/evaluate_runner.py prepare price-vs-stockout --out .tmp-runs
+
+      - name: Validate empirical study harness
+        run: |
+          python scripts/empirical_study.py prepare --out .tmp-study --provider command --model ci-model --repetitions 1 --repository-sha "$GITHUB_SHA"
+          python -c "from pathlib import Path; from evidence_first.evaluation.study import load_manifest, verify_manifest; p=Path('.tmp-study'); verify_manifest(p, load_manifest(p/'study-manifest.json'))"
+          python -c "from evidence_first.evaluation.ablation_study import validate_ablation_separation; validate_ablation_separation()"
