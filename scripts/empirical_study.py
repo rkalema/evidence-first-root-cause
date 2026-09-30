@@ -206,9 +206,10 @@ def run_study(
     outputs.mkdir(exist_ok=True)
     metadata_dir.mkdir(exist_ok=True)
 
-    completed = skipped = failed = 0
+    completed = skipped = failed = attempted = 0
+    errors: list[dict[str, str]] = []
     for trial in sorted(manifest["trials"], key=lambda item: item["order_index"]):
-        if limit is not None and completed >= limit:
+        if limit is not None and attempted >= limit:
             break
         safe_id = trial["trial_id"].replace(":", "__")
         output_path = outputs / f"{safe_id}.json"
@@ -218,6 +219,7 @@ def run_study(
             continue
 
         packet = json.loads((study_dir / trial["prompt_path"]).read_text(encoding="utf-8"))
+        attempted += 1
         try:
             result, meta = _run_trial(
                 manifest["provider"],
@@ -250,13 +252,15 @@ def run_study(
             completed += 1
         except Exception as exc:
             failed += 1
+            error_text = f"{type(exc).__name__}: {exc}"
+            errors.append({"trial_id": trial["trial_id"], "error": error_text})
             metadata_path.write_text(
                 json.dumps(
                     {
                         "trial_id": trial["trial_id"],
                         "case_id": trial["case_id"],
                         "condition": trial["condition"],
-                        "error": f"{type(exc).__name__}: {exc}",
+                        "error": error_text,
                     },
                     indent=2,
                     sort_keys=True,
@@ -264,7 +268,13 @@ def run_study(
                 encoding="utf-8",
             )
 
-    return {"completed": completed, "skipped": skipped, "failed": failed}
+    return {
+        "attempted": attempted,
+        "completed": completed,
+        "skipped": skipped,
+        "failed": failed,
+        "errors": errors[:5],
+    }
 
 
 def score_study(study_dir: Path) -> dict[str, Any]:
